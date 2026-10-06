@@ -24,13 +24,14 @@ public class PoweredDoor : PoweredObject
         //Lerp the light intensity.
         StartCoroutine(timer.LerpLightIntensity(doorLight, defaultIntensity, 0, 1));
 
-        //Lerp the location of the door mesh.
+        //Tween the location of the door mesh.
 
         //Play a door move sound effect
     }
 
-    public void DoorPowerOn() 
-    { 
+    public void DoorBootUp() 
+    {
+        StartCoroutine(timer.LerpLightIntensity(doorLight, 0, defaultIntensity, 1));
     }
 
     public override void Deactivate()
@@ -40,6 +41,6 @@ public class PoweredDoor : PoweredObject
 
     public override void Reactivate()
     {
-        DoorPowerOn();
+        DoorBootUp();
     }
 }
