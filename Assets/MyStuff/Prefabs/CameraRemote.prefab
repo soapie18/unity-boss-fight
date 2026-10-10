@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1332678688454408660}
   - component: {fileID: 4930268617517191441}
   - component: {fileID: 9026970047295306571}
-  - component: {fileID: 4753795341504403546}
   - component: {fileID: 7288861943170021469}
+  - component: {fileID: 2207224823787275788}
   m_Layer: 0
   m_Name: CameraRemote
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2148200370352275671}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.58849, y: 0, z: -8.16454}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
@@ -116,26 +116,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: ed8aef541c4d91c46b4bba37be9ab928, type: 3}
---- !u!114 &4753795341504403546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2148200370352275671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5ca6099267cd444c969a19cb978b2e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::JoystickRemote
-  InteractionType: 1
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: -1
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
-  objectToRotate: {fileID: 9190556504005600270}
-  speedOfRotation: 45
 --- !u!65 &7288861943170021469
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -157,6 +137,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5, y: 1.5, z: 1.5}
   m_Center: {x: 0, y: 0.044756282, z: 0}
+--- !u!114 &2207224823787275788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2148200370352275671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341e9ad137d6c8345b050acfa058fab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EndlessRotator
+  InteractionType: 0
+  _enabled: 1
+  <OneShot>k__BackingField: 0
+  <Duration>k__BackingField: 2
+  <ProgressMethod>k__BackingField: 0
+  timeout: 0.1
+  objectToRotate: {fileID: 9190556504005600270}
+  speedOfRotation: 45
 --- !u!1 &4323909977398449893
 GameObject:
   m_ObjectHideFlags: 0

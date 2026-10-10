@@ -1,37 +1,41 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class PoweredDoor : PoweredObject
 {
     [Header("Door Details")]
-    public Mesh doorMesh;
+    public Transform doorMesh;
     public Light doorLight;
     private float defaultIntensity;
-    public float fallSpeed;
+    private Vector3 defaultPos;
+    [SerializeField] private float fallSpeed;
 
-    [Header("Other")]
-    public TimerComponent timer;
-
-
-    void Start()
+    void Awake()
     {
-         defaultIntensity = doorLight.intensity;
+        defaultIntensity = doorLight.intensity;
+        defaultPos = doorMesh.localPosition;
     }
 
     public void DoorPowerDown()
     {
-        print("Door Powering Down");
-
-        //Lerp the light intensity.
-        StartCoroutine(timer.LerpLightIntensity(doorLight, defaultIntensity, 0, 1));
+        //Tween the light intensity.
+        doorLight.DOIntensity(0, 1.5f);
 
         //Tween the location of the door mesh.
+        doorMesh.DOLocalMoveY(-3.0f, 2.0f);
 
-        //Play a door move sound effect
+        //Play a door move sound effect.
     }
 
     public void DoorBootUp() 
     {
-        StartCoroutine(timer.LerpLightIntensity(doorLight, 0, defaultIntensity, 1));
+        //Tween the light intensity.
+        doorLight.DOIntensity(defaultIntensity, 1.5f);
+
+        //Tween the location of the door mesh.
+        doorMesh.DOLocalMoveY(defaultPos.y, fallSpeed);
+
+        //Play a door move sound effect.
     }
 
     public override void Deactivate()
