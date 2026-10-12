@@ -3,23 +3,30 @@ using UnityEngine;
 
 public class Stunner : Interaction
 {
+    //TO DO upgrade this class to be aware of multiple stunners at a time via an array.
+
     [Header("References")]
     public Stunner twinStunner;
+    [SerializeField] private StatusEffectData effectData;
 
     [Header("Stunner")]
-    [SerializeField]private float totalStunTime;
-    private float currentStunTime;
-
+    private float totalStunTime;
+    private float currentStunTime = 0.0f;
     private bool activeStunner = false;
+
+    private float currentInteractionCooldown = 0.0f;
+    private bool stunned = false;
 
     public event Action deactivateResponders;
     public event Action reactivateResponders;
 
-    public event Action stunPlayer;
-
     public event Action flipTwinStunner;
 
-    
+
+    private void Awake()
+    {
+        totalStunTime = effectData.duration;
+    }
 
     private void OnEnable()
     {
@@ -41,22 +48,33 @@ public class Stunner : Interaction
 
     private void StunPlayer(GameObject insigator, InteractionPhase phase, float delta)
     {
-        //Stun player when interaction is in complete phase
-        if (phase == InteractionPhase.COMPLETED)
+        //Checking if intigator implements the script I made for the player. 
+        var player = insigator.GetComponent<PlayerStun>();
+
+        //Stun player when interaction is complete.
+        if (player != null && !player.isCharged && phase == InteractionPhase.COMPLETED)
         {
-            stunPlayer?.Invoke();
+            print("Applying Stun to player");
+            //The script in question implements the IEffectable interface which is how it has this function
+            //implemented.
+            player.ApplyEffect(effectData);
+        }
+
+        //Resetting cooldown to stop repeated interaction.
+        if (currentInteractionCooldown <= 0.0f)
+        {
+            currentInteractionCooldown = effectData.duration;
         }
     }
 
     private void DrainPower(GameObject instigator, InteractionPhase phase, float delta)
     {
-        if (phase == InteractionPhase.STARTED ||  phase == InteractionPhase.CONTINUED)
+        if (!activeStunner && phase == InteractionPhase.STARTED ||  phase == InteractionPhase.CONTINUED)
         {
             //TO DO: Do some feedback to player e.g a growing electricity particle effect or some sparks.
         }
-        if (phase == InteractionPhase.COMPLETED)
+        if (!activeStunner && phase == InteractionPhase.COMPLETED)
         {
-            print("Stunner interaction complete");
             deactivateResponders?.Invoke();
 
             activeStunner = true;
@@ -78,21 +96,19 @@ public class Stunner : Interaction
     {
         if (activeStunner)
         {
-            print("There was a stunner already active but it has been disabled");
+            print("The twinned stunner was already active but it has been disabled");
             reactivateResponders?.Invoke();
 
             activeStunner = false;
         }
 
-        print("There were no other stunners currently active");
+        print("The twin stunner was not active");
     }
-
-
-
 
     void Update()
     {
-        if (currentStunTime >= 0.0f)
+        //Cooldown stuff for powered objects reactivation.
+        if (currentStunTime > 0.0f)
         {
             currentStunTime -= Time.deltaTime;
         }
@@ -102,6 +118,29 @@ public class Stunner : Interaction
             activeStunner = false;
             reactivateResponders?.Invoke();
         }
+
+
+
+
+        //Cooldown stuff for limiting more interaction while player is stunned exept its broken.
+        if (currentInteractionCooldown > 0.0f)
+        {
+            //OnLongInteraction -= StunPlayer;
+
+            currentInteractionCooldown -= Time.deltaTime;
+
+            stunned = true;
+        }
+
+        if (stunned && currentInteractionCooldown <= 0.0f)
+        {
+            
+            //OnLongInteraction += StunPlayer;
+
+            stunned = false;
+        }
+
     }
+
 
 }

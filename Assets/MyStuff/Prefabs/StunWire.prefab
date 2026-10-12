@@ -54,6 +54,7 @@ MonoBehaviour:
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
   twinStunner: {fileID: 0}
+  effectData: {fileID: 11400000, guid: 91d365e849cfa364b9b93a02a1796ce5, type: 2}
 --- !u!23 &8740754644100053203
 MeshRenderer:
   m_ObjectHideFlags: 0
