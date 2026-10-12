@@ -7,14 +7,25 @@ public class SensingCamera : PoweredObject
     [Header("Camera Details")]
     public CameraType CameraType;
     public Transform cameraMesh;
-    private Vector3 defaultPosition;
     public Light cameraLight;
     public Interaction remote;
+    private Collider collider;
     [SerializeField] private float cycleLength;
+    [SerializeField] private float fadeTime;
+    private Vector3 defaultPosition;
+  
+    private float defaultIntensity;
+   
+
+    private Tween cameraTween;
 
     private void Awake()
     {
         defaultPosition = cameraMesh.localPosition;
+        defaultIntensity = cameraLight.intensity;
+        collider = GetComponent<Collider>();    
+
+     
     }
 
     void Start()
@@ -28,11 +39,22 @@ public class SensingCamera : PoweredObject
     public override void Deactivate()
     {
         CameraPowerDown();
+
+        if (CameraType == CameraType.MANUAL)
+        {
+            DisableControl();
+        }
     }
 
     public override void Reactivate()
     {
         CameraBootUp();
+
+        if (CameraType == CameraType.MANUAL)
+        {
+            AllowControl();
+        }
+        
     }
 
     public void EvaluateBehaviour()
@@ -55,22 +77,32 @@ public class SensingCamera : PoweredObject
 
     private void CameraPowerDown()
     {
-        throw new NotImplementedException();
+        print("Camera powering down");
+        cameraTween.Pause();
+
+        cameraLight.DOIntensity(0.0f, fadeTime).SetEase(Ease.Linear);
+
+        collider.enabled = false;
     }
 
     private void CameraBootUp()
     {
-        throw new NotImplementedException();
+        print("Camera booting up");
+        cameraTween.Play();
+
+        cameraLight.DOIntensity(defaultIntensity, fadeTime).SetEase(Ease.Linear);
+
+        collider.enabled = true;
     }
 
     private void Rotate180()
     {
-        cameraMesh.DORotate(new Vector3(0, defaultPosition.y + 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        cameraTween = cameraMesh.DORotate(new Vector3(0, defaultPosition.y + 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void Rotate360()
     {
-        cameraMesh.DORotate(new Vector3(0, 360, 0), cycleLength, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
+        cameraTween = cameraMesh.DORotate(new Vector3(0, 360, 0), cycleLength, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
     }
 
     private void AllowControl()
@@ -78,6 +110,14 @@ public class SensingCamera : PoweredObject
         if (remote)
         {
             remote.OnPercentChanged += RotateCamera;
+        }
+    }
+
+    private void DisableControl()
+    {
+        if (remote)
+        {
+            remote.OnPercentChanged -= RotateCamera;
         }
     }
 

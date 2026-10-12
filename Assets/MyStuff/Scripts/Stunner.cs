@@ -6,12 +6,18 @@ public class Stunner : Interaction
     [Header("References")]
     public Stunner twinStunner;
 
+    [Header("Stunner")]
+    [SerializeField]private float totalStunTime;
+    private float currentStunTime;
+
     private bool activeStunner = false;
 
     public event Action deactivateResponders;
     public event Action reactivateResponders;
 
-    public event Action flipActiveStunner;
+    public event Action stunPlayer;
+
+    public event Action flipTwinStunner;
 
     
 
@@ -22,7 +28,7 @@ public class Stunner : Interaction
         
         if (twinStunner)
         {
-            twinStunner.flipActiveStunner += ToggleResponders;
+            twinStunner.flipTwinStunner += ToggleResponders;
         }
        
     }
@@ -38,7 +44,7 @@ public class Stunner : Interaction
         //Stun player when interaction is in complete phase
         if (phase == InteractionPhase.COMPLETED)
         {
-            
+            stunPlayer?.Invoke();
         }
     }
 
@@ -55,12 +61,17 @@ public class Stunner : Interaction
 
             activeStunner = true;
 
-            flipActiveStunner?.Invoke();
+            flipTwinStunner?.Invoke();
 
             //TO DO: Play a sound effect for powering down.
         }
 
-        //TO DO: start cooldown with variable time amount then reactivate responders and set activeStunner to false.
+        //Resetting cooldown.
+        if (currentStunTime <= 0.0f)
+        {
+            currentStunTime = totalStunTime;
+        }
+      
     }
 
     private void ToggleResponders()
@@ -76,5 +87,21 @@ public class Stunner : Interaction
         print("There were no other stunners currently active");
     }
 
+
+
+
+    void Update()
+    {
+        if (currentStunTime >= 0.0f)
+        {
+            currentStunTime -= Time.deltaTime;
+        }
+
+        if (currentStunTime <= 0.0f && activeStunner)
+        {
+            activeStunner = false;
+            reactivateResponders?.Invoke();
+        }
+    }
 
 }
