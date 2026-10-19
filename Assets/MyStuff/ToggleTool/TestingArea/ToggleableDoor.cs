@@ -4,27 +4,25 @@ using UnityEngine;
 public class ToggleableDoor : SingleLinkSwitch
 {
     [Header("Door Attributes")]
-    [SerializeField] Transform door;
-    [SerializeField] float animationDuration = 0.0f;
-    [SerializeField] float animationDistance;
+    [SerializeField] private Transform door;
+    [SerializeField] private float animationDuration = 0.0f;
+    [SerializeField] private float animationDistance;
 
-    private Vector3 defaultPos;
-    private Vector3 doorAnim;
+    private float defaultY = 0.0f;
     private Tween doorMovement;
 
     private void Awake()
     {
-        doorAnim = new Vector3(0, 0, 0);
-        defaultPos = transform.position;
+        defaultY = transform.position.y;
     }
 
     public override void Deactivate()
     {
-        doorMovement = door.DOLocalMoveY(defaultPos.y, animationDuration);
+        doorMovement = door.DOLocalMoveY(defaultY, animationDuration);
     }
 
-    public override void Activate()
+    public override void Activate(GameObject insigator)
     {
-        doorMovement = door.DOLocalMoveY(animationDistance, animationDuration);
+        doorMovement = door.DOLocalMoveY(defaultY + animationDistance, animationDuration);
     }
 }

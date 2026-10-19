@@ -10,6 +10,7 @@ public class SingleLinkSwitch: Interaction, IToggleable
     public SingleLinkSwitch twinSwitch;
 
     public event Action toggleOpposer;
+    public event Action triggerDeactivate;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
@@ -25,8 +26,11 @@ public class SingleLinkSwitch: Interaction, IToggleable
 
         if(interactable)
         {
+            OnShortInteraction += Activate;
             OnShortInteraction += TriggerToggleOpposer;
         }
+
+        triggerDeactivate += Deactivate;
     }
 
     private void OnDisable()
@@ -60,13 +64,13 @@ public class SingleLinkSwitch: Interaction, IToggleable
         yield return null;
     }
 
-    //This function is for when another object toggles, and how this object responds to that.
+    //This function is for when another object toggles, and how this object responds to that (turning itself off if active).
     public void ToggleResponse()
     {
 
         if (activeSwitch)
         {
-            Deactivate();
+            triggerDeactivate?.Invoke();
 
             activeSwitch = false;
         }
@@ -83,15 +87,15 @@ public class SingleLinkSwitch: Interaction, IToggleable
     //If the switch object was a remote controller for another object, here you would call whatever event that
     //the other object would listen to. Otherwise here you would put functionality to make something happen,
     //e.g a door interacted with would unlock itself.
-    public virtual void Activate()
-    { }
+    public virtual void Activate(GameObject instigator)
+    {}
 
 
     //If the switch object was a remote controller for another object, here you would call whatever event that
     //the other object would listen to. Otherwise here you would put functionality to make something happen,
     //e.g a door would re-lock itself.
     public virtual void Deactivate()
-    { }
-    
+    {}
+
 
 }

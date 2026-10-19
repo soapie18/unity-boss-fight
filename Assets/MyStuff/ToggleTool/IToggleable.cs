@@ -7,4 +7,5 @@ public interface IToggleable
 
     public IEnumerator ToggleCooldown();
 
+
 }
