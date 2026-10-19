@@ -7,6 +7,7 @@ public class SingleLinkSwitch: Interaction, IToggleable
     //Note - this class should probably inherit monobehaviour and have its own way of being interactable/
     //responding to interaction events without depending on GAD2010 when it comes releasing publicly. A job for later.
 
+    [Header("Switch Attributes")]
     public SingleLinkSwitch twinSwitch;
 
     public event Action toggleOpposer;

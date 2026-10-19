@@ -16,8 +16,8 @@ public class RemoteControlledPlatform : MonoBehaviour
 
     private void Awake()
     {
-        defaultPos = new Vector3 (0, 0, 0);
-        newPos = new Vector3(0, 0, 0);
+        defaultPos = platform.localPosition;
+        newPos = defaultPos;
     }
 
     private void Start()

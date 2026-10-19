@@ -1,28 +1,52 @@
 using DG.Tweening;
 using UnityEngine;
+using static UnityEditorInternal.ReorderableList;
 
 public class ToggleableDoor : SingleLinkSwitch
 {
     [Header("Door Attributes")]
-    [SerializeField] private Transform door;
+    [SerializeField] private Transform objectToMove;
     [SerializeField] private float animationDuration = 0.0f;
     [SerializeField] private float animationDistance;
 
-    private float defaultY = 0.0f;
-    private Tween doorMovement;
+    [SerializeField] private AxisOfMovement axisOfMovement;
+
+    private Vector3 defaultPos;
+    private Vector3 newPos;
+    private Tween movement;
+
+
 
     private void Awake()
     {
-        defaultY = transform.position.y;
+        defaultPos = objectToMove.localPosition;
+        newPos = defaultPos;
+    }
+
+    private void chooseAxis()
+    {
+        switch (axisOfMovement)
+        {
+            case AxisOfMovement.Y:
+                newPos.y = defaultPos.y + animationDistance;
+                break;
+            case AxisOfMovement.X:
+                newPos.x = defaultPos.x + animationDistance;
+                break;
+            case AxisOfMovement.Z:
+                newPos.z = defaultPos.z + animationDistance;
+                break;
+        }
     }
 
     public override void Deactivate()
     {
-        doorMovement = door.DOLocalMoveY(defaultY, animationDuration);
+        movement = objectToMove.DOLocalMove(defaultPos, animationDuration);
     }
 
     public override void Activate(GameObject insigator)
     {
-        doorMovement = door.DOLocalMoveY(defaultY + animationDistance, animationDuration);
+        movement = objectToMove.DOLocalMove(newPos, animationDuration);
     }
 }
+
