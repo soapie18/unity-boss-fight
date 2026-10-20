@@ -1,29 +1,31 @@
-using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class MultiLinkSwitch : Interaction, IToggleable
+public class MultiLinkSwitch : Interaction
 {
     [Header("Switch Attributes")]
     public List<MultiLinkSwitch> linkedSwitches;
 
-    public event Action toggleOpposers;
-    public event Action triggerDeactivate;
+    public event Action ToggleOpposers;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
 
     private bool activeSwitch = false;
 
+    [Header("Toggle Events")]
+    public UnityEvent OnSwitchActivate;
+    public UnityEvent OnSwitchDeactivate;
 
 
     private void OnEnable()
     {
         foreach (MultiLinkSwitch s in linkedSwitches)
         {
-            s.toggleOpposers += ToggleResponse;
+            s.ToggleOpposers += ToggleResponse;
         }
 
         if (interactable)
@@ -32,14 +34,13 @@ public class MultiLinkSwitch : Interaction, IToggleable
             OnShortInteraction += TriggerToggleOpposer;
         }
 
-        triggerDeactivate += Deactivate;
     }
 
     private void OnDisable()
     {
         foreach (MultiLinkSwitch s in linkedSwitches)
         {
-            s.toggleOpposers -= ToggleResponse;
+            s.ToggleOpposers -= ToggleResponse;
         }
 
 
@@ -49,29 +50,28 @@ public class MultiLinkSwitch : Interaction, IToggleable
             OnShortInteraction -= TriggerToggleOpposer;
         }
 
-        triggerDeactivate -= Deactivate;
     }
 
     private void TriggerToggleOpposer(GameObject @object)
     {
         if (!activeSwitch)
         {
-            toggleOpposers?.Invoke();
+            ToggleOpposers?.Invoke();
 
             activeSwitch = true;
         }
     }
 
-    public IEnumerator ToggleCooldown()
+    private IEnumerator ToggleCooldown()
     {
         throw new System.NotImplementedException();
     }
 
-    public void ToggleResponse()
+    private void ToggleResponse()
     {
         if (activeSwitch)
         {
-            triggerDeactivate?.Invoke();
+            Deactivate();
 
             activeSwitch = false;
         }
@@ -83,16 +83,17 @@ public class MultiLinkSwitch : Interaction, IToggleable
         }
     }
 
-    //If the switch object was a remote controller for another object, here you would call whatever event that
-    //the other object would listen to. Otherwise here you would put functionality to make something happen,
-    //e.g a door interacted with would unlock itself.
-    public virtual void Activate(GameObject instigator)
-    { }
+
+    private void Activate(GameObject instigator)
+    {
+        OnSwitchActivate?.Invoke();
+    }
 
 
-    //If the switch object was a remote controller for another object, here you would call whatever event that
-    //the other object would listen to. Otherwise here you would put functionality to make something happen,
-    //e.g a door would re-lock itself.
-    public virtual void Deactivate()
-    { }
+    private void Deactivate()
+    {
+        OnSwitchDeactivate?.Invoke();
+    }
+
 }
+

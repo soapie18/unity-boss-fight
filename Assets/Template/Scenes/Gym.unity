@@ -2152,9 +2152,21 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   twinSwitch: {fileID: 1147227860}
   interactable: 1
   timed: 0
+  activeSwitch: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
 --- !u!65 &183912564
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2541,15 +2553,21 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   linkedSwitches:
   - {fileID: 1697967280}
   - {fileID: 1004854919}
   interactable: 1
   timed: 0
+  activeSwitch: 0
   objectToMove: {fileID: 230902439}
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!1 &270929215
 GameObject:
   m_ObjectHideFlags: 0
@@ -3030,6 +3048,7 @@ GameObject:
   - component: {fileID: 335459176}
   - component: {fileID: 335459175}
   - component: {fileID: 335459174}
+  - component: {fileID: 335459178}
   - component: {fileID: 335459177}
   m_Layer: 0
   m_Name: 3
@@ -3140,9 +3159,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 335459171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5c09fb9f25d7b4793489fe70c301ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 51474a91207e2234cbc11c6478224425, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToggleableTransform
+  m_EditorClassIdentifier: Assembly-CSharp::MoveTween
+  objectToMove: {fileID: 0}
+  animationDuration: 0
+  animationDistance: 0
+  axisOfMovement: 0
+--- !u!114 &335459178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335459171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d404b0d800d25164988c56d75cafa780, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SingleLinkSwitch
   InteractionType: 0
   _enabled: 1
   <OneShot>k__BackingField: 0
@@ -3152,10 +3187,24 @@ MonoBehaviour:
   twinSwitch: {fileID: 1387079162}
   interactable: 1
   timed: 0
-  objectToMove: {fileID: 335459173}
-  animationDuration: 3
-  animationDistance: 3
-  axisOfMovement: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 335459177}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &377437059
 GameObject:
   m_ObjectHideFlags: 0
@@ -3627,13 +3676,27 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   twinSwitch: {fileID: 2130332241}
   interactable: 1
   timed: 0
+  activeSwitch: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
   objectToMove: {fileID: 0}
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!4 &415485690
 Transform:
   m_ObjectHideFlags: 0
@@ -4419,9 +4482,21 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   twinSwitch: {fileID: 183912563}
   interactable: 1
   timed: 0
+  activeSwitch: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
 --- !u!65 &501150339
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5374,15 +5449,21 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   linkedSwitches:
   - {fileID: 1697967280}
   - {fileID: 230902440}
   interactable: 1
   timed: 0
+  activeSwitch: 0
   objectToMove: {fileID: 1004854918}
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &1055025910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5847,9 +5928,21 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   twinSwitch: {fileID: 183912563}
   interactable: 1
   timed: 0
+  activeSwitch: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
 --- !u!65 &1147227861
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6296,9 +6389,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1296069353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5c09fb9f25d7b4793489fe70c301ac, type: 3}
+  m_Script: {fileID: 11500000, guid: d404b0d800d25164988c56d75cafa780, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToggleableTransform
+  m_EditorClassIdentifier: Assembly-CSharp::SingleLinkSwitch
   InteractionType: 0
   _enabled: 1
   <OneShot>k__BackingField: 0
@@ -6308,10 +6401,12 @@ MonoBehaviour:
   twinSwitch: {fileID: 0}
   interactable: 1
   timed: 0
-  objectToMove: {fileID: 1296069355}
-  animationDuration: 3
-  animationDistance: 3
-  axisOfMovement: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &1325774688
 Mesh:
   m_ObjectHideFlags: 0
@@ -6503,6 +6598,7 @@ GameObject:
   - component: {fileID: 1387079160}
   - component: {fileID: 1387079159}
   - component: {fileID: 1387079162}
+  - component: {fileID: 1387079163}
   m_Layer: 0
   m_Name: 2
   m_TagString: Untagged
@@ -6612,9 +6708,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1387079156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5c09fb9f25d7b4793489fe70c301ac, type: 3}
+  m_Script: {fileID: 11500000, guid: d404b0d800d25164988c56d75cafa780, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToggleableTransform
+  m_EditorClassIdentifier: Assembly-CSharp::SingleLinkSwitch
   InteractionType: 0
   _enabled: 1
   <OneShot>k__BackingField: 0
@@ -6624,9 +6720,39 @@ MonoBehaviour:
   twinSwitch: {fileID: 1296069359}
   interactable: 1
   timed: 0
-  objectToMove: {fileID: 1387079158}
-  animationDuration: 3
-  animationDistance: 3
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387079163}
+        m_TargetAssemblyTypeName: MoveTween, Assembly-CSharp
+        m_MethodName: MovePlatform
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1387079163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387079156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51474a91207e2234cbc11c6478224425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoveTween
+  objectToMove: {fileID: 0}
+  animationDuration: 0
+  animationDistance: 0
   axisOfMovement: 0
 --- !u!1 &1406194544
 GameObject:
@@ -6758,6 +6884,8 @@ MonoBehaviour:
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1497947115
 GameObject:
   m_ObjectHideFlags: 0
@@ -7625,15 +7753,21 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   linkedSwitches:
   - {fileID: 1004854919}
   - {fileID: 230902440}
   interactable: 1
   timed: 0
+  activeSwitch: 0
   objectToMove: {fileID: 1697967279}
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1726174620 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7104856239389809885, guid: e6926cdf018a32743bf3689f64af1ae3,
@@ -8623,6 +8757,8 @@ MonoBehaviour:
   animationDuration: 3
   animationDistance: 2.5
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!65 &1848303509
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9736,6 +9872,8 @@ MonoBehaviour:
   animationDuration: 3
   animationDistance: 2.5
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!1 &2130332240
 GameObject:
   m_ObjectHideFlags: 0
@@ -9772,13 +9910,27 @@ MonoBehaviour:
   <Duration>k__BackingField: 2
   <ProgressMethod>k__BackingField: 0
   timeout: 0.1
+  <Phase>k__BackingField: 3
+  _timer: 0
+  _timeout_start: 0
   twinSwitch: {fileID: 415485689}
   interactable: 1
   timed: 0
+  activeSwitch: 0
+  OnSwitchActivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
+  OnSwitchDeactivate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_CallsDirty: 1
   objectToMove: {fileID: 0}
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+  defaultPos: {x: 0, y: 0, z: 0}
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!65 &2130332242
 BoxCollider:
   m_ObjectHideFlags: 0

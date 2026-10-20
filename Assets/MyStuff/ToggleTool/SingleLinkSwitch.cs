@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class SingleLinkSwitch: Interaction, IToggleable
+public class SingleLinkSwitch: Interaction
 {
     //Note - this class should probably inherit monobehaviour and have its own way of being interactable/
     //responding to interaction events without depending on GAD2010 when it comes releasing publicly. A job for later.
@@ -10,19 +11,22 @@ public class SingleLinkSwitch: Interaction, IToggleable
     [Header("Switch Attributes")]
     public SingleLinkSwitch twinSwitch;
 
-    public event Action toggleOpposer;
-    public event Action triggerDeactivate;
+    public event Action ToggleOpposer;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
 
     private bool activeSwitch = false;
 
+    [Header("Toggle Events")]
+    public UnityEvent OnSwitchActivate;
+    public UnityEvent OnSwitchDeactivate;
+
     private void OnEnable()
     {
         if (twinSwitch)
         {
-            twinSwitch.toggleOpposer += ToggleResponse;
+            twinSwitch.ToggleOpposer += ToggleResponse;
         }
 
         if(interactable)
@@ -31,14 +35,13 @@ public class SingleLinkSwitch: Interaction, IToggleable
             OnShortInteraction += TriggerToggleOpposer;
         }
 
-        triggerDeactivate += Deactivate;
     }
 
     private void OnDisable()
     {
         if (twinSwitch)
         {
-            twinSwitch.toggleOpposer -= ToggleResponse;
+            twinSwitch.ToggleOpposer -= ToggleResponse;
         }
 
         if (interactable)
@@ -52,7 +55,7 @@ public class SingleLinkSwitch: Interaction, IToggleable
     {
         if (!activeSwitch)
         {
-            toggleOpposer?.Invoke();
+            ToggleOpposer?.Invoke();
 
             activeSwitch = true;
         }
@@ -60,18 +63,18 @@ public class SingleLinkSwitch: Interaction, IToggleable
     }
 
     //If this switch is timed, this cooldown will be used to control when it will be active until. 
-    public IEnumerator ToggleCooldown()
+    private IEnumerator ToggleCooldown()
     {
         yield return null;
     }
 
     //This function is for when another object toggles, and how this object responds to that (turning itself off if active).
-    public void ToggleResponse()
+    private void ToggleResponse()
     {
 
         if (activeSwitch)
         {
-            triggerDeactivate?.Invoke();
+            Deactivate();
 
             activeSwitch = false;
         }
@@ -85,18 +88,16 @@ public class SingleLinkSwitch: Interaction, IToggleable
     }
 
 
-    //If the switch object was a remote controller for another object, here you would call whatever event that
-    //the other object would listen to. Otherwise here you would put functionality to make something happen,
-    //e.g a door interacted with would unlock itself.
-    public virtual void Activate(GameObject instigator)
-    {}
+    // Designer can call response behaviour in inspector.
+    private void Activate(GameObject instigator)
+    {
+        OnSwitchActivate?.Invoke();
+    }
 
-
-    //If the switch object was a remote controller for another object, here you would call whatever event that
-    //the other object would listen to. Otherwise here you would put functionality to make something happen,
-    //e.g a door would re-lock itself.
-    public virtual void Deactivate()
-    {}
+    private void Deactivate()
+    {
+        OnSwitchDeactivate?.Invoke();
+    }
 
 
 }

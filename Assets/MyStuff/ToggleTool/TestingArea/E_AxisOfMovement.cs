@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum E_AxisOfMovement
+public enum AxisOfMovement
 {
     Y,
     X,
