@@ -2257,6 +2257,7 @@ GameObject:
   - component: {fileID: 230902436}
   - component: {fileID: 230902441}
   - component: {fileID: 230902440}
+  - component: {fileID: 230902442}
   m_Layer: 0
   m_Name: 3 - cycle
   m_TagString: Untagged
@@ -2369,14 +2370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1fbcbb0d71313409174e1fa7faad94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiLinkSwitch
-  InteractionType: 0
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: 2
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
+  InteractionEvent: {fileID: 11400000, guid: 04d99e1365e2a474da3dc058d39fcf60, type: 2}
   linkedSwitches:
-  - {fileID: 1697967280}
+  - {fileID: 1697967282}
   - {fileID: 1004854919}
   interactable: 1
   timed: 0
@@ -2426,6 +2422,25 @@ MonoBehaviour:
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+--- !u!114 &230902442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230902434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac948b6454da234b8d04c6575033e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShortInteractionToggleInvoker
+  InteractionType: 0
+  _enabled: 1
+  <OneShot>k__BackingField: 0
+  <Duration>k__BackingField: 2
+  <ProgressMethod>k__BackingField: 0
+  timeout: 0.1
+  InteractionEvent: {fileID: 11400000, guid: 04d99e1365e2a474da3dc058d39fcf60, type: 2}
 --- !u!1 &270929215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,12 +2939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d404b0d800d25164988c56d75cafa780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SingleLinkSwitch
-  InteractionType: 0
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: 2
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
+  InteractionEvent: {fileID: 0}
   twinSwitch: {fileID: 1387079162}
   interactable: 1
   timed: 0
@@ -4731,6 +4741,7 @@ GameObject:
   - component: {fileID: 1004854915}
   - component: {fileID: 1004854920}
   - component: {fileID: 1004854919}
+  - component: {fileID: 1004854921}
   m_Layer: 0
   m_Name: 2 - cycle
   m_TagString: Untagged
@@ -4843,14 +4854,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1fbcbb0d71313409174e1fa7faad94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiLinkSwitch
-  InteractionType: 0
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: 2
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
+  InteractionEvent: {fileID: 11400000, guid: 04d99e1365e2a474da3dc058d39fcf60, type: 2}
   linkedSwitches:
-  - {fileID: 1697967280}
+  - {fileID: 1697967282}
   - {fileID: 230902440}
   interactable: 1
   timed: 0
@@ -4900,6 +4906,25 @@ MonoBehaviour:
   animationDuration: 3
   animationDistance: 3
   axisOfMovement: 0
+--- !u!114 &1004854921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004854913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac948b6454da234b8d04c6575033e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShortInteractionToggleInvoker
+  InteractionType: 0
+  _enabled: 1
+  <OneShot>k__BackingField: 0
+  <Duration>k__BackingField: 2
+  <ProgressMethod>k__BackingField: 0
+  timeout: 0.1
+  InteractionEvent: {fileID: 11400000, guid: 04d99e1365e2a474da3dc058d39fcf60, type: 2}
 --- !u!1001 &1055025910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5741,12 +5766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d404b0d800d25164988c56d75cafa780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SingleLinkSwitch
-  InteractionType: 0
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: 2
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
+  InteractionEvent: {fileID: 0}
   twinSwitch: {fileID: 0}
   interactable: 1
   timed: 0
@@ -6100,12 +6120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d404b0d800d25164988c56d75cafa780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SingleLinkSwitch
-  InteractionType: 0
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: 2
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
+  InteractionEvent: {fileID: 0}
   twinSwitch: {fileID: 1296069359}
   interactable: 1
   timed: 0
@@ -6345,8 +6360,9 @@ GameObject:
   - component: {fileID: 1697967278}
   - component: {fileID: 1697967277}
   - component: {fileID: 1697967276}
-  - component: {fileID: 1697967280}
   - component: {fileID: 1697967281}
+  - component: {fileID: 1697967282}
+  - component: {fileID: 1697967283}
   m_Layer: 0
   m_Name: 1 - cycle
   m_TagString: Untagged
@@ -6447,7 +6463,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1697967280
+--- !u!114 &1697967281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697967274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51474a91207e2234cbc11c6478224425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoveTween
+  objectToMove: {fileID: 1697967279}
+  animationDuration: 3
+  animationDistance: 3
+  axisOfMovement: 0
+--- !u!114 &1697967282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6459,12 +6491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1fbcbb0d71313409174e1fa7faad94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MultiLinkSwitch
-  InteractionType: 0
-  _enabled: 1
-  <OneShot>k__BackingField: 0
-  <Duration>k__BackingField: 2
-  <ProgressMethod>k__BackingField: 0
-  timeout: 0.1
+  InteractionEvent: {fileID: 11400000, guid: 04d99e1365e2a474da3dc058d39fcf60, type: 2}
   linkedSwitches:
   - {fileID: 1004854919}
   - {fileID: 230902440}
@@ -6500,7 +6527,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1697967281
+--- !u!114 &1697967283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6509,13 +6536,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1697967274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51474a91207e2234cbc11c6478224425, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ac948b6454da234b8d04c6575033e91, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MoveTween
-  objectToMove: {fileID: 1697967279}
-  animationDuration: 3
-  animationDistance: 3
-  axisOfMovement: 0
+  m_EditorClassIdentifier: Assembly-CSharp::ShortInteractionToggleInvoker
+  InteractionType: 0
+  _enabled: 1
+  <OneShot>k__BackingField: 0
+  <Duration>k__BackingField: 2
+  <ProgressMethod>k__BackingField: 0
+  timeout: 0.1
+  InteractionEvent: {fileID: 11400000, guid: 04d99e1365e2a474da3dc058d39fcf60, type: 2}
 --- !u!1 &1726174620 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7104856239389809885, guid: e6926cdf018a32743bf3689f64af1ae3,

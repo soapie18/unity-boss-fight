@@ -3,15 +3,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SingleLinkSwitch: Interaction
+public class SingleLinkSwitch : LinkedSwitch
 {
-    //Note - this class should probably inherit monobehaviour and have its own way of being interactable/
-    //responding to interaction events without depending on GAD2010 when it comes releasing publicly. A job for later.
-
     [Header("Switch Attributes")]
     public SingleLinkSwitch twinSwitch;
 
     public event Action ToggleOpposer;
+    public event Action OnInteraction;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
@@ -24,34 +22,45 @@ public class SingleLinkSwitch: Interaction
 
     private void OnEnable()
     {
-        if (twinSwitch)
+        if (twinSwitch != null)
         {
             twinSwitch.ToggleOpposer += ToggleResponse;
         }
 
-        if(interactable)
+        if (interactable)
         {
-            OnShortInteraction += Activate;
-            OnShortInteraction += TriggerToggleOpposer;
+            InteractionEvent.AddListener(this);
+
+            OnInteraction += Activate;
+            OnInteraction += TriggerToggleOpposer;
         }
 
     }
 
     private void OnDisable()
     {
-        if (twinSwitch)
+        if (twinSwitch != null)
         {
             twinSwitch.ToggleOpposer -= ToggleResponse;
         }
 
         if (interactable)
         {
-            OnShortInteraction -= TriggerToggleOpposer;
+            InteractionEvent.RemoveListener(this);
+
+            OnInteraction -= Activate;
+            OnInteraction -= TriggerToggleOpposer;
         }
     }
 
+    public override void OnGameEventRaised()
+    {
+        OnInteraction?.Invoke();
+    }
+
+
     //In the event of interaction with this object, toggle single opposer off and make this switch active.
-    private void TriggerToggleOpposer(GameObject insigator)
+    private void TriggerToggleOpposer()
     {
         if (!activeSwitch)
         {
@@ -59,7 +68,7 @@ public class SingleLinkSwitch: Interaction
 
             activeSwitch = true;
         }
-       
+
     }
 
     //If this switch is timed, this cooldown will be used to control when it will be active until. 
@@ -82,21 +91,25 @@ public class SingleLinkSwitch: Interaction
 
         if (timed && activeSwitch)
         {
-            StartCoroutine(ToggleCooldown());
+            //TODO: start cooldown
         }
 
     }
 
 
     // Designer can call response behaviour in inspector using UnityEvents.
-    private void Activate(GameObject instigator)
+    private void Activate()
     {
+
         OnSwitchActivate?.Invoke();
+
     }
 
     private void Deactivate()
     {
+
         OnSwitchDeactivate?.Invoke();
+
     }
 
 

@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MultiLinkSwitch : Interaction
+public class MultiLinkSwitch : LinkedSwitch
 {
     [Header("Switch Attributes")]
     public List<MultiLinkSwitch> linkedSwitches = new();
 
     public event Action ToggleOpposers;
+    public event Action OnInteraction;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
@@ -30,8 +31,8 @@ public class MultiLinkSwitch : Interaction
 
         if (interactable)
         {
-            OnShortInteraction += Activate;
-            OnShortInteraction += TriggerToggleOpposer;
+            OnInteraction += Activate;
+            OnInteraction += TriggerToggleOpposer;
         }
 
     }
@@ -46,13 +47,18 @@ public class MultiLinkSwitch : Interaction
 
         if (interactable)
         {
-            OnShortInteraction -= Activate;
-            OnShortInteraction -= TriggerToggleOpposer;
+            OnInteraction -= Activate;
+            OnInteraction -= TriggerToggleOpposer;
         }
 
     }
 
-    private void TriggerToggleOpposer(GameObject @object)
+    public override void OnGameEventRaised()
+    {
+        OnInteraction?.Invoke();
+    }
+
+    private void TriggerToggleOpposer()
     {
         if (!activeSwitch)
         {
@@ -79,12 +85,12 @@ public class MultiLinkSwitch : Interaction
 
         if (timed && activeSwitch)
         {
-            StartCoroutine(ToggleCooldown());
+            //TODO: start cooldown
         }
     }
 
 
-    private void Activate(GameObject instigator)
+    private void Activate()
     {
         OnSwitchActivate?.Invoke();
     }
