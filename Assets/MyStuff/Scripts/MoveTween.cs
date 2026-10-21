@@ -13,6 +13,12 @@ public class MoveTween : MonoBehaviour
     private Vector3 newPos;
     private Tween movement;
 
+    void Awake()
+    {
+        defaultPos = objectToMove.localPosition;
+        newPos = defaultPos;
+    }
+
     void Start()
     {
         DetermineAxis();

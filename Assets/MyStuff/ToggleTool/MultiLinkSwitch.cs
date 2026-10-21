@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class MultiLinkSwitch : Interaction
 {
     [Header("Switch Attributes")]
-    public List<MultiLinkSwitch> linkedSwitches;
+    public List<MultiLinkSwitch> linkedSwitches = new();
 
     public event Action ToggleOpposers;
 

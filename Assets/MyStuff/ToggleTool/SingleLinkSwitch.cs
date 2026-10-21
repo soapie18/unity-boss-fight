@@ -88,7 +88,7 @@ public class SingleLinkSwitch: Interaction
     }
 
 
-    // Designer can call response behaviour in inspector.
+    // Designer can call response behaviour in inspector using UnityEvents.
     private void Activate(GameObject instigator)
     {
         OnSwitchActivate?.Invoke();
