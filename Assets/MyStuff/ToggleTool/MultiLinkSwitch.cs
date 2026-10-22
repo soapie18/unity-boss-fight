@@ -10,7 +10,6 @@ public class MultiLinkSwitch : LinkedSwitch
     public List<MultiLinkSwitch> linkedSwitches = new();
 
     public event Action ToggleOpposers;
-    public event Action OnInteraction;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
@@ -31,8 +30,8 @@ public class MultiLinkSwitch : LinkedSwitch
 
         if (interactable)
         {
-            OnInteraction += Activate;
-            OnInteraction += TriggerToggleOpposer;
+            Triggered += Activate;
+            Triggered += TriggerToggleOpposer;
         }
 
     }
@@ -47,15 +46,10 @@ public class MultiLinkSwitch : LinkedSwitch
 
         if (interactable)
         {
-            OnInteraction -= Activate;
-            OnInteraction -= TriggerToggleOpposer;
+            Triggered -= Activate;
+            Triggered -= TriggerToggleOpposer;
         }
 
-    }
-
-    public override void OnGameEventRaised()
-    {
-        OnInteraction?.Invoke();
     }
 
     private void TriggerToggleOpposer()

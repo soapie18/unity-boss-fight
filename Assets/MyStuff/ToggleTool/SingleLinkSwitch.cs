@@ -9,7 +9,6 @@ public class SingleLinkSwitch : LinkedSwitch
     public SingleLinkSwitch twinSwitch;
 
     public event Action ToggleOpposer;
-    public event Action OnInteraction;
 
     [SerializeField] private bool interactable = false;
     [SerializeField] private bool timed = false;
@@ -22,40 +21,31 @@ public class SingleLinkSwitch : LinkedSwitch
 
     private void OnEnable()
     {
-        if (twinSwitch != null)
+        if (twinSwitch)
         {
             twinSwitch.ToggleOpposer += ToggleResponse;
         }
 
         if (interactable)
         {
-            InteractionEvent.AddListener(this);
-
-            OnInteraction += Activate;
-            OnInteraction += TriggerToggleOpposer;
+            Triggered += Activate;
+            Triggered += TriggerToggleOpposer;
         }
 
     }
 
     private void OnDisable()
     {
-        if (twinSwitch != null)
+        if (twinSwitch)
         {
             twinSwitch.ToggleOpposer -= ToggleResponse;
         }
 
         if (interactable)
         {
-            InteractionEvent.RemoveListener(this);
-
-            OnInteraction -= Activate;
-            OnInteraction -= TriggerToggleOpposer;
+            Triggered -= Activate;
+            Triggered -= TriggerToggleOpposer;
         }
-    }
-
-    public override void OnGameEventRaised()
-    {
-        OnInteraction?.Invoke();
     }
 
 
@@ -81,7 +71,7 @@ public class SingleLinkSwitch : LinkedSwitch
     private void ToggleResponse()
     {
 
-        if (activeSwitch)
+        if (this.activeSwitch)
         {
             Deactivate();
 
@@ -100,8 +90,8 @@ public class SingleLinkSwitch : LinkedSwitch
     // Designer can call response behaviour in inspector using UnityEvents.
     private void Activate()
     {
-
         OnSwitchActivate?.Invoke();
+        Debug.Log("A switch has been activated" + this);
 
     }
 
@@ -109,6 +99,7 @@ public class SingleLinkSwitch : LinkedSwitch
     {
 
         OnSwitchDeactivate?.Invoke();
+        Debug.Log("A switch has been deactivated" + this);
 
     }
 
