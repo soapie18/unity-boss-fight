@@ -1,5 +1,58 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1694405670187057384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2580583707864162856}
+  - component: {fileID: 4470240660144292891}
+  m_Layer: 0
+  m_Name: BanishZone
+  m_TagString: Banisher
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2580583707864162856
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694405670187057384}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0000000745058, y: -0.000000029802319, z: 0.40385574, w: 0.9148227}
+  m_LocalPosition: {x: 5.35014, y: 0.8502074, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 289062842757318167}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 47.639}
+--- !u!65 &4470240660144292891
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694405670187057384}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.7259498, y: 0.77970266, z: 4.4346356}
+  m_Center: {x: -0.3045544, y: -0.21228796, z: 0.4128346}
 --- !u!1 &2705910312464034001
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,8 +62,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8091790747655082837}
-  - component: {fileID: 6457299234369535539}
   - component: {fileID: 3322780953107366273}
+  - component: {fileID: -607120468393328832}
   m_Layer: 0
   m_Name: SensingCamera
   m_TagString: Untagged
@@ -34,24 +87,6 @@ Transform:
   - {fileID: 289062842757318167}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6457299234369535539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2705910312464034001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6720e12544ab54aa2431ac9ca5f519, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SensingCamera
-  stunner: {fileID: 0}
-  CameraType: 2
-  cameraMesh: {fileID: 289062842757318167}
-  cameraLight: {fileID: 8131752935384925443}
-  remote: {fileID: 0}
-  timer: {fileID: 3322780953107366273}
 --- !u!114 &3322780953107366273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +99,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08919ae22f26c674ea1d12ea142161d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimerComponent
+--- !u!114 &-607120468393328832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2705910312464034001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c59eb90f5452743aeaba611136d608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SensorCamera
+  remote: {fileID: 0}
+  cameraType: 3
+  cameraMesh: {fileID: 289062842757318167}
+  cameraLight: {fileID: 8131752935384925443}
+  banishingTrigger: {fileID: 4470240660144292891}
+  cycleLength: 0
+  fadeTime: 0.5
+  speedOfRotation: 45
 --- !u!1 &3908984406094282377
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,6 +152,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5238491121080284541}
+  - {fileID: 2580583707864162856}
   m_Father: {fileID: 8091790747655082837}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -47.063}
 --- !u!33 &8512351260140233765
@@ -221,7 +277,7 @@ Light:
   serializedVersion: 13
   m_Type: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1
+  m_Intensity: 200
   m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208

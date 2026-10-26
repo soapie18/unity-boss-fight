@@ -12,12 +12,13 @@ public class SensingCamera : PoweredObject
     private Collider collider;
     [SerializeField] private float cycleLength;
     [SerializeField] private float fadeTime;
+
     private Vector3 defaultPosition;
   
     private float defaultIntensity;
    
 
-    private Tween cameraTween;
+    private Tween cameraMove;
 
     private void Awake()
     {
@@ -78,7 +79,7 @@ public class SensingCamera : PoweredObject
     private void CameraPowerDown()
     {
         print("Camera powering down");
-        cameraTween.Pause();
+        cameraMove.Pause();
 
         cameraLight.DOIntensity(0.0f, fadeTime).SetEase(Ease.Linear);
 
@@ -88,7 +89,7 @@ public class SensingCamera : PoweredObject
     private void CameraBootUp()
     {
         print("Camera booting up");
-        cameraTween.Play();
+        cameraMove.Play();
 
         cameraLight.DOIntensity(defaultIntensity, fadeTime).SetEase(Ease.Linear);
 
@@ -97,12 +98,12 @@ public class SensingCamera : PoweredObject
 
     private void Rotate180()
     {
-        cameraTween = cameraMesh.DORotate(new Vector3(0, defaultPosition.y + 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        cameraMove = cameraMesh.DORotate(new Vector3(0, defaultPosition.y + 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void Rotate360()
     {
-        cameraTween = cameraMesh.DORotate(new Vector3(0, 360, 0), cycleLength, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
+        cameraMove = cameraMesh.DORotate(new Vector3(0, 360, 0), cycleLength, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
     }
 
     private void AllowControl()
@@ -130,9 +131,3 @@ public class SensingCamera : PoweredObject
 
 }
 
-public enum CameraType
-{
-    AUTO_180,
-    AUTO_360,
-    MANUAL
-}

@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MoveTween : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class MoveTween : MonoBehaviour
     [SerializeField] private float animationDuration = 0.0f;
     [SerializeField] private float animationDistance;
     [SerializeField] private EAxisOfMovement axisOfMovement;
+    private Tween movement;
 
+    //defaults
     private Vector3 defaultPos;
     private Vector3 newPos;
-    private Tween movement;
+    
 
     void Awake()
     {
@@ -38,6 +41,26 @@ public class MoveTween : MonoBehaviour
                 newPos.z = defaultPos.z + animationDistance;
                 break;
         }
+    }
+
+    public void DecideMovementNeeded()
+    {
+        if (objectToMove.position == newPos)
+        {
+            ReturnObject();
+            return;
+        }
+
+        if (objectToMove.position == defaultPos)
+        {
+            MoveObject();
+            return;
+        }
+
+        
+        
+        Debug.Log("object was still moving");
+        return;
     }
 
     public void MoveObject()
