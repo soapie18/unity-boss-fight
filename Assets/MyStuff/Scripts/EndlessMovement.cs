@@ -1,16 +1,21 @@
 using DG.Tweening;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 public class EndlessMovement : MonoBehaviour
 {
     [SerializeField] private Transform objectToMove;
     [SerializeField] private float movementSpeed;
+    private float defaultMovementSpeed;
     [SerializeField] private EAxisOfMovement axisOfMovement;
     private Vector3 direction;
 
-    public float objectLifetime;
+    private void Awake()
+    {
+
+    }
 
     void ChooseAxis()
     {
@@ -30,6 +35,8 @@ public class EndlessMovement : MonoBehaviour
 
     void Start()
     {
+        defaultMovementSpeed = movementSpeed;
+
         ChooseAxis();
     }
 
@@ -41,5 +48,11 @@ public class EndlessMovement : MonoBehaviour
     void Update()
     {
         objectToMove.Translate(direction * Time.deltaTime, Space.Self);
+
+    }
+
+    private void OnDisable()
+    {
+        movementSpeed = defaultMovementSpeed;
     }
 }
