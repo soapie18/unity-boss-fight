@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface ISpawnable
 {
-    public abstract void FlipState();
+    public abstract void OnToggleOfSpawner();
 
 }

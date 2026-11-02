@@ -5,52 +5,87 @@ using UnityEditor.Rendering;
 using UnityEngine;
 
 
+public enum ESpawnerInUse
+{ 
+    Primary,
+    Secondary
+}
+
+
 public class ObjectSpawner : MonoBehaviour
 {
     [Header("Spawner Details")]
-    [SerializeField] private bool activeState = true;
-    [SerializeField] private ObjectSpawner twinSpawner;
+    [SerializeField] private bool active = true;
+    [SerializeField] private ESpawnerInUse spawnerInUse = ESpawnerInUse.Primary;
+    private Transform currentSpawner;
+    [SerializeField] private Transform primarySpawnPoint;
+    [SerializeField] private Transform secondarySpawnpoint;
     [Tooltip ("Object to spawn MUST implement ISpawnable interface")][SerializeField] private GameObject objectToPool;
     [Tooltip("Number of objects in the spawning pool")][SerializeField] private int initialPoolLimit;
     private List<GameObject> pool = new();
     private int index = 0;
 
-    [Tooltip ("Objects will spawn this many seconds apart, also acts as initial delay")][SerializeField] private float spawnDelay;
-    [Tooltip("Leave at 0 for consistent start rotation of spawned objects")][SerializeField] private float spawnRotationOffset;
-    [Tooltip("Leave at 0 for consistent start location of spawned objects")][SerializeField] private float spawnLocationOffset;
- 
-    private float spawnTimer;
-
-    GameObject latestObjectEnabled;
+    [Tooltip ("Objects will spawn this many seconds apart, also acts as initial delay")][SerializeField] private float spawnDelay = 5;
+    private float spawnCountdown;
     
     //Use this or allow objects that the pool spawns to handle their lifetime.
     private BoxCollider killzone;
 
+
     void Awake()
     {
-        killzone = GetComponent<BoxCollider>(); 
+        killzone = GetComponent<BoxCollider>();
 
         for (int i = 0; i < initialPoolLimit; i++)
         {
             CreateObjectInPool();
         }
+
+        currentSpawner = primarySpawnPoint.transform;
+
+        spawnCountdown = spawnDelay;
     }
 
-   void OnEnable()
-    {
-        spawnTimer = spawnDelay;
-    }
 
-    private void FlipState()
+    private void ChangeCurrentSpawnPoint()
     {
-        activeState = !activeState;
-
-        for (int i = 0;i < pool.Count;i++)
+        switch (spawnerInUse)
         {
-            //Check if obj implements ISpawnable and call FlipState on it
+            case ESpawnerInUse.Primary:
+                currentSpawner = secondarySpawnpoint.transform;
+                break;
+            case ESpawnerInUse.Secondary:
+                currentSpawner = primarySpawnPoint.transform;
+                break;
+            default:
+                break;
         }
 
+    }
 
+    public void TurnOffSpawner()
+    {
+        active = false;
+    }
+
+    public void TurnOnSpawner()
+    {
+        active = true;
+    }
+
+    public void SwitchSpawnPoint()
+    {
+        ChangeCurrentSpawnPoint();
+
+        foreach(var obj in pool)
+        {
+            if(obj.TryGetComponent<ISpawnable>(out var spawnable))
+            {
+                Debug.Log("Fired interface func");
+                spawnable.OnToggleOfSpawner();
+            }
+        }
+        
     }
 
     private GameObject CreateObjectInPool()
@@ -62,10 +97,9 @@ public class ObjectSpawner : MonoBehaviour
         return objectCreated;
     }
 
-    private GameObject EnableObjectFromPool(float rotationOffset, float locationOffset)
+    private GameObject EnableObjectFromPool()
     {
-        //Might not need to return an object but keeping it as an option.
-        GameObject newObject;
+        Debug.Log("Enabling...");
 
         //Cycle through list from whatever current point in it is ('index'), back to said starting point, looking
         //for a disabled object that we can enable. 
@@ -73,36 +107,31 @@ public class ObjectSpawner : MonoBehaviour
         {
             if (pool[index].activeInHierarchy == false)
             {
-                newObject = pool[index];
-                newObject.transform.position = this.transform.position;
-                newObject.SetActive(true);
+                //Enabling object found
+                pool[index].transform.position = this.transform.position;
+                pool[index].SetActive(true);
 
-                //If aren't 0 use rotation offset and location offset to modify the transform of this object, based on
-                //'latestObjectEnabled' transform + the offset value. Its so that you can have say bullet hell spiral type
-                //patterns for drone spawning later down the line.
+                Debug.Log("Object enabled");
 
-                //latestObjectEnabled = newObject;
-
-                return newObject;
+                return pool[index];
             }
 
             index++;
 
+            //If full array is cycled through, reset index.
             if (index >= pool.Count)
             {
                 index = 0;
             }
         }
 
+        GameObject newObject;
+
+        //Creating an object in pool because no objects were available.
         newObject = CreateObjectInPool();
         newObject.transform.position = this.transform.position;
         newObject.SetActive(true);
-
-        //If aren't 0 use rotation offset and location offset to modify the transform of this object, based on
-        //'latestObjectEnabled' transform + the offset value. Its so that you can have say bullet hell patterns
-        //for drone spawning later down the line.
-
-        //latestObjectEnabled = newObject;
+        Debug.Log("Object enabled");
 
         return newObject;
         
@@ -110,18 +139,23 @@ public class ObjectSpawner : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == objectToPool)
+        Debug.Log("collision event fired");
+
+        if (pool.Contains(other.gameObject))
         {
+            Debug.Log("Correct object collided");
             other.gameObject.SetActive(false);
         }
     }
 
     void Update()
     {
-        if (spawnTimer == 0)
+        spawnCountdown -= Time.deltaTime;
+
+        if (spawnCountdown <= 0 && active)
         {
-            EnableObjectFromPool(spawnRotationOffset, spawnLocationOffset);
-            spawnTimer = spawnDelay;
+            EnableObjectFromPool();
+            spawnCountdown = spawnDelay;
         }
     }
 

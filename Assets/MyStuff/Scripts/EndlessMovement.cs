@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 
-public class EndlessMovement : MonoBehaviour
+public class EndlessMovement : MonoBehaviour, ISpawnable
 {
     [SerializeField] private Transform objectToMove;
     [SerializeField] private float movementSpeed;
@@ -35,8 +35,6 @@ public class EndlessMovement : MonoBehaviour
 
     void Start()
     {
-        defaultMovementSpeed = movementSpeed;
-
         ChooseAxis();
     }
 
@@ -44,7 +42,12 @@ public class EndlessMovement : MonoBehaviour
     {
         movementSpeed *= -1;
     }
-   
+    
+    public void OnToggleOfSpawner()
+    {
+        FlipDirection();
+    }
+
     void Update()
     {
         objectToMove.Translate(direction * Time.deltaTime, Space.Self);
@@ -55,4 +58,6 @@ public class EndlessMovement : MonoBehaviour
     {
         movementSpeed = defaultMovementSpeed;
     }
+
+    
 }
