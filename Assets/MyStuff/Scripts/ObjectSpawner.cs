@@ -75,18 +75,33 @@ public class ObjectSpawner : MonoBehaviour
 
     public void SwitchSpawnPoint()
     {
-        ChangeCurrentSpawnPoint();
+        ChangeCurrentSpawnPoint(); 
+    }
 
-        foreach(var obj in pool)
+    public void ObjectsActivateResponse()
+    {
+        foreach (var obj in pool)
         {
-            if(obj.TryGetComponent<ISpawnable>(out var spawnable))
+            if (obj.TryGetComponent<ISpawnable>(out var spawnable))
             {
-                Debug.Log("Fired interface func");
+                Debug.Log("Found interface");
                 spawnable.OnToggleOfSpawner();
             }
         }
-        
     }
+
+    public void ObjectsDeactivateResponse()
+    {
+        foreach (var obj in pool)
+        {
+            if (obj.TryGetComponent<ISpawnable>(out var spawnable))
+            {
+                Debug.Log("Found interface");
+                spawnable.OnToggleOfSpawnerAlt();
+            }
+        }
+    }
+
 
     private GameObject CreateObjectInPool()
     {
@@ -108,7 +123,7 @@ public class ObjectSpawner : MonoBehaviour
             if (pool[index].activeInHierarchy == false)
             {
                 //Enabling object found
-                pool[index].transform.position = this.transform.position;
+                pool[index].transform.position = currentSpawner.transform.position;
                 pool[index].SetActive(true);
 
                 Debug.Log("Object enabled");
@@ -129,7 +144,7 @@ public class ObjectSpawner : MonoBehaviour
 
         //Creating an object in pool because no objects were available.
         newObject = CreateObjectInPool();
-        newObject.transform.position = this.transform.position;
+        newObject.transform.position = currentSpawner.transform.position;
         newObject.SetActive(true);
         Debug.Log("Object enabled");
 
