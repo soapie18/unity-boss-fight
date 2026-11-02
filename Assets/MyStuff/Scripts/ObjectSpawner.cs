@@ -71,7 +71,7 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
 
-    public void ObjectsToggleResponse()
+    public void ISpawnableToggleResponse()
     {
         foreach (var obj in pool)
         {
@@ -82,7 +82,7 @@ public class ObjectSpawner : MonoBehaviour
         }
     }
 
-    public void ObjectsToggleResponseAlt()
+    public void ISpawnableToggleResponseAlt()
     {
         foreach (var obj in pool)
         {
