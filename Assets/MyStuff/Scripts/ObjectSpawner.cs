@@ -46,23 +46,6 @@ public class ObjectSpawner : MonoBehaviour
         spawnCountdown = spawnDelay;
     }
 
-
-    private void ChangeCurrentSpawnPoint()
-    {
-        switch (spawnerInUse)
-        {
-            case ESpawnerInUse.Primary:
-                currentSpawner = secondarySpawnpoint.transform;
-                break;
-            case ESpawnerInUse.Secondary:
-                currentSpawner = primarySpawnPoint.transform;
-                break;
-            default:
-                break;
-        }
-
-    }
-
     public void TurnOffSpawner()
     {
         active = false;
@@ -75,28 +58,36 @@ public class ObjectSpawner : MonoBehaviour
 
     public void SwitchSpawnPoint()
     {
-        ChangeCurrentSpawnPoint(); 
+        switch (spawnerInUse)
+        {
+            case ESpawnerInUse.Primary:
+                currentSpawner = secondarySpawnpoint.transform;
+                break;
+            case ESpawnerInUse.Secondary:
+                currentSpawner = primarySpawnPoint.transform;
+                break;
+            default:
+                break;
+        }
     }
 
-    public void ObjectsActivateResponse()
+    public void ObjectsToggleResponse()
     {
         foreach (var obj in pool)
         {
             if (obj.TryGetComponent<ISpawnable>(out var spawnable))
             {
-                Debug.Log("Found interface");
                 spawnable.OnToggleOfSpawner();
             }
         }
     }
 
-    public void ObjectsDeactivateResponse()
+    public void ObjectsToggleResponseAlt()
     {
         foreach (var obj in pool)
         {
             if (obj.TryGetComponent<ISpawnable>(out var spawnable))
             {
-                Debug.Log("Found interface");
                 spawnable.OnToggleOfSpawnerAlt();
             }
         }
@@ -114,8 +105,6 @@ public class ObjectSpawner : MonoBehaviour
 
     private GameObject EnableObjectFromPool()
     {
-        Debug.Log("Enabling...");
-
         //Cycle through list from whatever current point in it is ('index'), back to said starting point, looking
         //for a disabled object that we can enable. 
         for (int i = 0; i < pool.Count; i++)
@@ -125,8 +114,6 @@ public class ObjectSpawner : MonoBehaviour
                 //Enabling object found
                 pool[index].transform.position = currentSpawner.transform.position;
                 pool[index].SetActive(true);
-
-                Debug.Log("Object enabled");
 
                 return pool[index];
             }
@@ -146,7 +133,6 @@ public class ObjectSpawner : MonoBehaviour
         newObject = CreateObjectInPool();
         newObject.transform.position = currentSpawner.transform.position;
         newObject.SetActive(true);
-        Debug.Log("Object enabled");
 
         return newObject;
         

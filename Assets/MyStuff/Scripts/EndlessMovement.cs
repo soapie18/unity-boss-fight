@@ -33,7 +33,7 @@ public class EndlessMovement : MonoBehaviour, ISpawnable
         }
     }
 
-    void Start()
+    void OnEnable()
     {
         ChooseAxis();
     }
@@ -42,6 +42,8 @@ public class EndlessMovement : MonoBehaviour, ISpawnable
     {
         Debug.Log("Flipping direction of movement");
         movementSpeed *= -1;
+
+        ChooseAxis();
     }
     
     public void FlipDirectionToDefault()
@@ -68,4 +70,6 @@ public class EndlessMovement : MonoBehaviour, ISpawnable
     {
         return;
     }
+
+    
 }

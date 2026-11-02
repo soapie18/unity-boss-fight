@@ -1229,7 +1229,7 @@ Transform:
   m_GameObject: {fileID: 98704081}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.21, y: 1.0543888, z: 6.22}
+  m_LocalPosition: {x: 23.21, y: 1.0543888, z: -38.179996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3170,7 +3170,31 @@ MonoBehaviour:
   timed: 0
   OnSwitchActivate:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1500947055}
+        m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
+        m_MethodName: ObjectsActivateResponse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1500947055}
+        m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
+        m_MethodName: SwitchSpawnPoint
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnSwitchDeactivate:
     m_PersistentCalls:
       m_Calls: []
@@ -3223,7 +3247,7 @@ Transform:
   m_GameObject: {fileID: 222246389}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.49, y: -0, z: 8.98}
+  m_LocalPosition: {x: 25.49, y: -0, z: -35.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9134,7 +9158,7 @@ Transform:
   m_GameObject: {fileID: 1500947052}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.36, y: 0, z: -16.49}
+  m_LocalPosition: {x: 28.36, y: 0, z: -36.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9160,7 +9184,7 @@ MonoBehaviour:
   secondarySpawnpoint: {fileID: 528655006}
   objectToPool: {fileID: 7643250819140993203, guid: b811dd6a8ded13046bc5bd7972e1db0d,
     type: 3}
-  initialPoolLimit: 5
+  initialPoolLimit: 20
   spawnDelay: 2
 --- !u!65 &1500947056
 BoxCollider:
@@ -9181,8 +9205,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7.1563807, y: 5.774336, z: 3.7130928}
-  m_Center: {x: 0.28336573, y: 0.2685094, z: 26.914064}
+  m_Size: {x: 7.1563807, y: 5.774336, z: 1.3093452}
+  m_Center: {x: 0.28336573, y: 0.2685094, z: 45.46849}
 --- !u!1 &1624634326
 GameObject:
   m_ObjectHideFlags: 0
@@ -9756,7 +9780,7 @@ Transform:
   m_GameObject: {fileID: 1760590144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.31, y: 0, z: -0.375}
+  m_LocalPosition: {x: -1.31, y: 0, z: -0.659}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -10027,6 +10051,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1500947055}
         m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
+        m_MethodName: ObjectsActivateResponse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1500947055}
+        m_TargetAssemblyTypeName: ObjectSpawner, Assembly-CSharp
         m_MethodName: SwitchSpawnPoint
         m_Mode: 1
         m_Arguments:
@@ -10089,7 +10125,7 @@ Transform:
   m_GameObject: {fileID: 1767536430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.39, y: -0, z: -8.21}
+  m_LocalPosition: {x: 32.39, y: -0, z: -9.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11340,7 +11376,7 @@ Transform:
   m_GameObject: {fileID: 1881762416}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.15, y: 1.0543888, z: -15.870675}
+  m_LocalPosition: {x: 30.15, y: 1.0543888, z: -11.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
