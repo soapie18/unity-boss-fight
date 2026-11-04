@@ -18,7 +18,7 @@ public class ObjectSpawner : MonoBehaviour
 
     [SerializeField] protected bool active = true;
 
-    [Tooltip("Object to spawn MUST implement ISpawnable interface for toggleable functionality to work.")][SerializeField] protected GameObject objectToPool;
+    [Tooltip("Objects must implement ISpawnable to use some functions in this script. May not always be relevant")][SerializeField] protected GameObject objectToPool;
     [Tooltip("Number of objects in the spawning pool.")][SerializeField] protected int initialPoolLimit;
     protected List<GameObject> pool = new();
     protected int index = 0;
@@ -26,12 +26,12 @@ public class ObjectSpawner : MonoBehaviour
     [Tooltip("Objects will spawn this many seconds apart, also acts as initial delay.")][SerializeField] protected float spawnDelay = 5;
     protected float spawnCountdown;
 
-    [Header("Paired Spawner Details")]
+    //[Header("Paired Spawner Details")]
 
-    [SerializeField] protected ESpawnerInUse spawnerInUse = ESpawnerInUse.Primary;
-    protected ObjectSpawner currentSpawnPoint;
-    [Tooltip("Primary should == the same GameObject accross both spawners involveds' fields. Don't assume this == Primary.")][SerializeField] protected ObjectSpawner primarySpawnPoint;
-    [Tooltip("Secondary should == the same GameObject accross both spawners involveds' fields.")][SerializeField] protected ObjectSpawner secondarySpawnPoint;
+    //[SerializeField] protected ESpawnerInUse spawnerInUse = ESpawnerInUse.Primary;
+    //protected ObjectSpawner currentSpawnPoint;
+    //[Tooltip("Primary should == the same GameObject accross both spawners involveds' fields. Don't assume this == Primary.")][SerializeField] protected ObjectSpawner primarySpawnPoint;
+    //[Tooltip("Secondary should == the same GameObject accross both spawners involveds' fields.")][SerializeField] protected ObjectSpawner secondarySpawnPoint;
 
     //Use this but also allow objects that the pool spawns to handle their lifetime if necessary.
     protected BoxCollider killzone;
@@ -46,7 +46,7 @@ public class ObjectSpawner : MonoBehaviour
             CreateObjectInPool();
         }
 
-        currentSpawnPoint = primarySpawnPoint;
+        //currentSpawnPoint = primarySpawnPoint;
 
         spawnCountdown = spawnDelay;
     }
@@ -61,27 +61,34 @@ public class ObjectSpawner : MonoBehaviour
         active = true;
     }
 
-    virtual public void SwitchSpawner()
+    //virtual public void SwitchSpawner()
+    //{
+    //    switch (spawnerInUse)
+    //    {
+    //        case ESpawnerInUse.Primary:
+    //            currentSpawnPoint = secondarySpawnPoint;
+    //            spawnerInUse = ESpawnerInUse.Secondary;
+    //            primarySpawnPoint.active = false;
+    //            secondarySpawnPoint.active = true;
+    //            break;
+    //        case ESpawnerInUse.Secondary:
+    //            currentSpawnPoint = primarySpawnPoint;
+    //            spawnerInUse = ESpawnerInUse.Primary;
+    //            secondarySpawnPoint.active = false;
+    //            primarySpawnPoint.active = true;
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //}
+
+    public void DisableAllInPool()
     {
-        switch (spawnerInUse)
+        foreach (GameObject obj in pool)
         {
-            case ESpawnerInUse.Primary:
-                currentSpawnPoint = secondarySpawnPoint;
-                spawnerInUse = ESpawnerInUse.Secondary;
-                primarySpawnPoint.active = false;
-                secondarySpawnPoint.active = true;
-                break;
-            case ESpawnerInUse.Secondary:
-                currentSpawnPoint = primarySpawnPoint;
-                spawnerInUse = ESpawnerInUse.Primary;
-                secondarySpawnPoint.active = false;
-                primarySpawnPoint.active = true;
-                break;
-            default:
-                break;
+            obj.SetActive(false);
         }
     }
-
 
     public void ISpawnableToggleResponse()
     {
@@ -89,6 +96,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             if (obj.TryGetComponent<ISpawnable>(out var spawnable))
             {
+                Debug.Log("I Found an ISpawnable. Current list size: " + pool.Count);
                 spawnable.OnToggleOfSpawner();
             }
         }

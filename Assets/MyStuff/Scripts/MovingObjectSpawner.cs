@@ -9,9 +9,9 @@ public class MovingObjectSpawner : ObjectSpawner
     [Tooltip("All objects will pull from this value for their speed and not their own value.")][SerializeField] private float movementSpeedOverride;
     [HideInInspector] public Vector3 direction;
 
-    private MovingObjectSpawner primarySpawner;
-    private MovingObjectSpawner secondarySpawner;
-    private MovingObjectSpawner currentSpawner;
+    //private MovingObjectSpawner primarySpawner;
+    //private MovingObjectSpawner secondarySpawner;
+    //private MovingObjectSpawner currentSpawner;
 
 
     //In order to have different axis for different spawn points its probably easier to have a reference to a secondary spawner with its own
@@ -35,9 +35,9 @@ public class MovingObjectSpawner : ObjectSpawner
     {
         SetDirectionSpawnerUses();
 
-        primarySpawner = primarySpawnPoint as MovingObjectSpawner;
-        secondarySpawner = secondarySpawnPoint as MovingObjectSpawner;
-        currentSpawner = currentSpawnPoint as MovingObjectSpawner;
+        //primarySpawner = primarySpawnPoint as MovingObjectSpawner;
+        //secondarySpawner = secondarySpawnPoint as MovingObjectSpawner;
+        //currentSpawner = currentSpawnPoint as MovingObjectSpawner;
     }
 
     private void SetDirectionSpawnerUses()
@@ -61,34 +61,32 @@ public class MovingObjectSpawner : ObjectSpawner
 
     public void FlipDirectionUsedInSpawner()
     {
-        Debug.Log("before: " + direction);
         direction *= -1;
-        Debug.Log("after : " + direction);
     }
 
-    override public void SwitchSpawner()
-    {
-        if (primarySpawner is MovingObjectSpawner && secondarySpawner is MovingObjectSpawner && currentSpawner is MovingObjectSpawner)
-        {
-            switch (spawnerInUse)
-            {
-                case ESpawnerInUse.Primary:
-                    currentSpawner = secondarySpawner;
-                    spawnerInUse = ESpawnerInUse.Secondary;
-                    primarySpawner.active = false;
-                    secondarySpawner.active = true;
-                    break;
-                case ESpawnerInUse.Secondary:
-                    currentSpawner = primarySpawner;
-                    spawnerInUse = ESpawnerInUse.Primary;
-                    secondarySpawner.active = false;
-                    primarySpawner.active = true;
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+    //override public void SwitchSpawner()
+    //{
+    //    if (primarySpawner is MovingObjectSpawner && secondarySpawner is MovingObjectSpawner && currentSpawner is MovingObjectSpawner)
+    //    {
+    //        switch (spawnerInUse)
+    //        {
+    //            case ESpawnerInUse.Primary:
+    //                currentSpawner = secondarySpawner;
+    //                spawnerInUse = ESpawnerInUse.Secondary;
+    //                primarySpawner.active = false;
+    //                secondarySpawner.active = true;
+    //                break;
+    //            case ESpawnerInUse.Secondary:
+    //                currentSpawner = primarySpawner;
+    //                spawnerInUse = ESpawnerInUse.Primary;
+    //                secondarySpawner.active = false;
+    //                primarySpawner.active = true;
+    //                break;
+    //            default:
+    //                break;
+    //        }
+    //    }
+    //}
 
     protected override void Update()
     {

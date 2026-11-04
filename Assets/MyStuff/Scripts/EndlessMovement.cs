@@ -64,5 +64,5 @@ public class EndlessMovement : MonoBehaviour, ISpawnable
         return;
     }
 
-    
+
 }
