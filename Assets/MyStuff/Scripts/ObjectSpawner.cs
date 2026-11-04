@@ -15,24 +15,29 @@ public enum ESpawnerInUse
 public class ObjectSpawner : MonoBehaviour
 {
     [Header("Spawner Details")]
-    [SerializeField] private bool active = true;
-    [SerializeField] private ESpawnerInUse spawnerInUse = ESpawnerInUse.Primary;
-    private Transform currentSpawner;
-    [SerializeField] private Transform primarySpawnPoint;
-    [SerializeField] private Transform secondarySpawnpoint;
-    [Tooltip ("Object to spawn MUST implement ISpawnable interface")][SerializeField] private GameObject objectToPool;
-    [Tooltip("Number of objects in the spawning pool")][SerializeField] private int initialPoolLimit;
-    private List<GameObject> pool = new();
-    private int index = 0;
 
-    [Tooltip ("Objects will spawn this many seconds apart, also acts as initial delay")][SerializeField] private float spawnDelay = 5;
-    private float spawnCountdown;
-    
-    //Use this or allow objects that the pool spawns to handle their lifetime.
-    private BoxCollider killzone;
+    [SerializeField] protected bool active = true;
+
+    [Tooltip("Object to spawn MUST implement ISpawnable interface for toggleable functionality to work.")][SerializeField] protected GameObject objectToPool;
+    [Tooltip("Number of objects in the spawning pool.")][SerializeField] protected int initialPoolLimit;
+    protected List<GameObject> pool = new();
+    protected int index = 0;
+
+    [Tooltip("Objects will spawn this many seconds apart, also acts as initial delay.")][SerializeField] protected float spawnDelay = 5;
+    protected float spawnCountdown;
+
+    [Header("Paired Spawner Details")]
+
+    [SerializeField] protected ESpawnerInUse spawnerInUse = ESpawnerInUse.Primary;
+    protected ObjectSpawner currentSpawnPoint;
+    [Tooltip("Primary should == the same GameObject accross both spawners involveds' fields. Don't assume this == Primary.")][SerializeField] protected ObjectSpawner primarySpawnPoint;
+    [Tooltip("Secondary should == the same GameObject accross both spawners involveds' fields.")][SerializeField] protected ObjectSpawner secondarySpawnPoint;
+
+    //Use this but also allow objects that the pool spawns to handle their lifetime if necessary.
+    protected BoxCollider killzone;
 
 
-    void Awake()
+    virtual protected void Awake()
     {
         killzone = GetComponent<BoxCollider>();
 
@@ -41,7 +46,7 @@ public class ObjectSpawner : MonoBehaviour
             CreateObjectInPool();
         }
 
-        currentSpawner = primarySpawnPoint.transform;
+        currentSpawnPoint = primarySpawnPoint;
 
         spawnCountdown = spawnDelay;
     }
@@ -56,20 +61,27 @@ public class ObjectSpawner : MonoBehaviour
         active = true;
     }
 
-    public void SwitchSpawnPoint()
+    virtual public void SwitchSpawner()
     {
         switch (spawnerInUse)
         {
             case ESpawnerInUse.Primary:
-                currentSpawner = secondarySpawnpoint.transform;
+                currentSpawnPoint = secondarySpawnPoint;
+                spawnerInUse = ESpawnerInUse.Secondary;
+                primarySpawnPoint.active = false;
+                secondarySpawnPoint.active = true;
                 break;
             case ESpawnerInUse.Secondary:
-                currentSpawner = primarySpawnPoint.transform;
+                currentSpawnPoint = primarySpawnPoint;
+                spawnerInUse = ESpawnerInUse.Primary;
+                secondarySpawnPoint.active = false;
+                primarySpawnPoint.active = true;
                 break;
             default:
                 break;
         }
     }
+
 
     public void ISpawnableToggleResponse()
     {
@@ -94,7 +106,7 @@ public class ObjectSpawner : MonoBehaviour
     }
 
 
-    private GameObject CreateObjectInPool()
+    protected GameObject CreateObjectInPool()
     {
         //Instantiate() returns a reference to what it creates so we can pass this value back out.
         GameObject objectCreated = Instantiate(objectToPool, transform);
@@ -103,7 +115,7 @@ public class ObjectSpawner : MonoBehaviour
         return objectCreated;
     }
 
-    private GameObject EnableObjectFromPool()
+    protected GameObject EnableObjectFromPool()
     {
         //Cycle through list from whatever current point in it is ('index'), back to said starting point, looking
         //for a disabled object that we can enable. 
@@ -111,8 +123,8 @@ public class ObjectSpawner : MonoBehaviour
         {
             if (pool[index].activeInHierarchy == false)
             {
-                //Enabling object found
-                pool[index].transform.position = currentSpawner.transform.position;
+                //Enabling object found.
+                pool[index].transform.position = this.transform.position;
                 pool[index].SetActive(true);
 
                 return pool[index];
@@ -131,25 +143,22 @@ public class ObjectSpawner : MonoBehaviour
 
         //Creating an object in pool because no objects were available.
         newObject = CreateObjectInPool();
-        newObject.transform.position = currentSpawner.transform.position;
+        newObject.transform.position = this.transform.position;
         newObject.SetActive(true);
 
         return newObject;
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collision event fired");
-
         if (pool.Contains(other.gameObject))
         {
-            Debug.Log("Correct object collided");
             other.gameObject.SetActive(false);
         }
     }
 
-    void Update()
+    virtual protected void Update()
     {
         spawnCountdown -= Time.deltaTime;
 

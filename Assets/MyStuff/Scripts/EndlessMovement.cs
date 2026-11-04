@@ -11,14 +11,17 @@ public class EndlessMovement : MonoBehaviour, ISpawnable
     public EAxisOfMovement axisOfMovement;
     private Vector3 direction;
 
-    void UpdateDirection()
+    [HideInInspector] public MovingObjectSpawner spawner;
+
+
+    private void Awake()
     {
-        
+        ChooseAxis(axisOfMovement);
     }
 
-    void ChooseAxis()
+    public void ChooseAxis(EAxisOfMovement axis)
     {
-        switch (axisOfMovement)
+        switch (axis)
         {
             case EAxisOfMovement.X:
                 direction = new Vector3(movementSpeed, 0, 0);
@@ -32,25 +35,23 @@ public class EndlessMovement : MonoBehaviour, ISpawnable
         }
     }
 
-    private void Start()
-    {
-        ChooseAxis();
-    }
-
     public void FlipDirection()
     {
-        Debug.Log("Flipping direction of movement");
         direction *= -1;
-    }
-    
-    public void FlipDirectionToDefault()
-    {
-        
     }
 
     void Update()
     {
-        objectToMove.Translate(direction * Time.deltaTime, Space.Self);
+        if(spawner)
+        {
+            objectToMove.Translate(spawner.direction * Time.deltaTime, Space.Self);
+        }
+
+        else
+        {
+            objectToMove.Translate(direction * Time.deltaTime, Space.Self);
+        }
+            
     }
 
     public void OnToggleOfSpawner()

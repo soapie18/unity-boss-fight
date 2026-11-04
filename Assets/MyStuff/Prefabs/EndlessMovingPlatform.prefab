@@ -128,7 +128,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EndlessMovement
   objectToMove: {fileID: 95480824481882851}
   movementSpeed: 4
-  axisOfMovement: 1
+  axisOfMovement: 2
+  spawner: {fileID: 0}
 --- !u!54 &-929803788281017491
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -91,7 +91,6 @@ public class SingleLinkSwitch : LinkedSwitch
     private void Activate()
     {
         OnSwitchActivate?.Invoke();
-        Debug.Log("A switch has been activated" + this);
 
     }
 
@@ -99,7 +98,6 @@ public class SingleLinkSwitch : LinkedSwitch
     {
 
         OnSwitchDeactivate?.Invoke();
-        Debug.Log("A switch has been deactivated" + this);
 
     }
 
