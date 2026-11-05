@@ -1,41 +1,50 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class ToggleableLight : MonoBehaviour
 {
-    [SerializeField] private Light lightSource;
+    private Light lightSource;
     [SerializeField] private float fadeTime;
-    [SerializeField] private Color defaultColour;
-    [SerializeField] private Color secondaryColor;
+    [SerializeField] private Color defaultColour = Color.red;
+    [SerializeField] private Color secondaryColor = Color.green;
     private float defaultIntensity;
 
-
-    void TurnOffLight()
+    private void Awake()
     {
+        lightSource = GetComponent<Light>();
 
+        lightSource.color = defaultColour;
+
+        defaultIntensity = lightSource.intensity;
     }
 
-    void TurnOnLight()
+    public void TurnOffLight()
     {
-
+        lightSource.enabled = false;
     }
 
-    void FadeOutLight()
+    public void TurnOnLight()
     {
-
+        lightSource.enabled = true;
     }
 
-    void FadeInLight()
+    public void FadeOutLight()
     {
-
+        lightSource.DOIntensity(0.0f, fadeTime).SetEase(Ease.Linear);
     }
 
-    void ChangeLightColour()
+    public void FadeInLight()
     {
-
+        lightSource.DOIntensity(defaultIntensity, fadeTime).SetEase(Ease.Linear);
     }
 
-    void ChangeLightColourToDefault()
+    public void ChangeLightColour()
     {
+        lightSource.DOColor(secondaryColor, fadeTime).SetEase(Ease.Linear);
+    }
 
+    public void ChangeLightColourToDefault()
+    {
+        lightSource.DOColor(defaultColour, fadeTime).SetEase(Ease.Linear);
     }
 }

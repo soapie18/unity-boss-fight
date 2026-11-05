@@ -18,7 +18,23 @@ public class RotateTween : MonoBehaviour
     [Tooltip("MANUAL only! Should be equal to Speed Of Rotation on any other manually rotating object this one may be linked with," +
         "if sync is desired.")][SerializeField] private float speedOfRotation;
     private Tween rotationTween;
-    private Vector3 defaultPosition;
+    private Vector3 defaultLocation;
+
+    private void OnValidate()
+    {
+        if (objectToRotate != null)
+        {
+            if (rotationMode == ERotationMode.AUTO_360)
+            {
+                objectToRotate.rotation = Quaternion.identity;
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        defaultLocation = objectToRotate.transform.rotation.eulerAngles;
+    }
 
     void Start()
     {
@@ -92,10 +108,9 @@ public class RotateTween : MonoBehaviour
 
     private void Rotate180()
     {
-        //This is currently broken need to learn how to properly tween rotations
         if (objectToRotate)
         {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultPosition.y - 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         }
     }
 
