@@ -4,6 +4,7 @@ using UnityEngine;
 public class InteractionHandler : Interaction
 {
     [SerializeField] LinkedSwitch toggleableSwitch;
+    // public bool interactionAvailable;
 
     private void OnEnable()
     {
@@ -26,6 +27,14 @@ public class InteractionHandler : Interaction
 
     private void TriggerInteractionOccurred(GameObject instigator)
     {
-        toggleableSwitch.Triggered?.Invoke();
+        //if (interactionAvailable)
+        //{
+            toggleableSwitch.Triggered?.Invoke();
+        //}
+    }
+
+    public void ResetInteractableState()
+    {
+        //interactionAvailable = true;
     }
 }

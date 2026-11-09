@@ -45,6 +45,9 @@ public class RotateTween : MonoBehaviour
     {
         switch (rotationMode)
         {
+            case ERotationMode.AUTO_90:
+                Rotate90();
+                break;
             case ERotationMode.AUTO_180:
                 Rotate180();
                 break;
@@ -111,6 +114,14 @@ public class RotateTween : MonoBehaviour
         if (objectToRotate)
         {
             rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        }
+    }
+
+    private void Rotate90()
+    {
+        if (objectToRotate)
+        {
+            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 90, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         }
     }
 
