@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8223636614646417141}
   - component: {fileID: 3978880388964046488}
   m_Layer: 0
-  m_Name: ProbuilderShape
+  m_Name: Geo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

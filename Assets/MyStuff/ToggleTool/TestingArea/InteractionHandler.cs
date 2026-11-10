@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class InteractionHandler : Interaction
 {
-    [SerializeField] LinkedSwitch toggleableSwitch;
-    // public bool interactionAvailable;
+    private LinkedSwitch toggleableSwitch;
+
+    private void Awake()
+    {
+        toggleableSwitch = GetComponent<LinkedSwitch>();
+    }
 
     private void OnEnable()
     {
@@ -27,10 +31,7 @@ public class InteractionHandler : Interaction
 
     private void TriggerInteractionOccurred(GameObject instigator)
     {
-        //if (interactionAvailable)
-        //{
-            toggleableSwitch.Triggered?.Invoke();
-        //}
+        toggleableSwitch.Triggered?.Invoke();
     }
 
     public void ResetInteractableState()

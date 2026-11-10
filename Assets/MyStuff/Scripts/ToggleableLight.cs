@@ -3,29 +3,30 @@ using UnityEngine;
 
 public class ToggleableLight : MonoBehaviour
 {
-    private Light lightSource;
+    public Light lightSource;
     [SerializeField] private float fadeTime;
     [SerializeField] private Color defaultColour = Color.red;
     [SerializeField] private Color secondaryColor = Color.green;
-    private float defaultIntensity;
+    [SerializeField]private float defaultIntensity = 0;
 
-    private void Awake()
+    private void OnValidate()
     {
-        lightSource = GetComponent<Light>();
+        if(lightSource)
+        {
+            lightSource.intensity = defaultIntensity;
 
-        lightSource.color = defaultColour;
-
-        defaultIntensity = lightSource.intensity;
+            lightSource.color = defaultColour;
+        }
     }
 
     public void TurnOffLight()
     {
-        lightSource.enabled = false;
+        lightSource.intensity = 0;
     }
 
     public void TurnOnLight()
     {
-        lightSource.enabled = true;
+        lightSource.intensity = defaultIntensity;
     }
 
     public void FadeOutLight()

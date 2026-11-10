@@ -5,25 +5,15 @@ using UnityEngine.Events;
 
 public class SingleLinkSwitch : LinkedSwitch
 {
-    [Header("Switch Attributes")]
+    [Header("Switch Links")]
     public SingleLinkSwitch twinSwitch;
 
-    public event Action ToggleOpposer;
-
-    [SerializeField] private bool interactable = false;
-    [SerializeField] private bool timed = false;
-
-    private bool activeSwitch = false;
-
-    [Header("Toggle Events")]
-    public UnityEvent OnSwitchActivate;
-    public UnityEvent OnSwitchDeactivate;
-
+    
     private void OnEnable()
     {
         if (twinSwitch)
         {
-            twinSwitch.ToggleOpposer += ToggleResponse;
+            twinSwitch.ToggleOpposers += ToggleResponse;
         }
 
         if (interactable)
@@ -32,13 +22,18 @@ public class SingleLinkSwitch : LinkedSwitch
             Triggered += TriggerToggleOpposer;
         }
 
+        if (onTimer)
+        {
+            Triggered += ResetTimer;
+        }
+
     }
 
     private void OnDisable()
     {
         if (twinSwitch)
         {
-            twinSwitch.ToggleOpposer -= ToggleResponse;
+            twinSwitch.ToggleOpposers -= ToggleResponse;
         }
 
         if (interactable)
@@ -46,60 +41,14 @@ public class SingleLinkSwitch : LinkedSwitch
             Triggered -= Activate;
             Triggered -= TriggerToggleOpposer;
         }
-    }
 
-
-    //In the event of interaction with this object, toggle single opposer off and make this switch active.
-    private void TriggerToggleOpposer()
-    {
-        if (!activeSwitch)
+        if (onTimer)
         {
-            ToggleOpposer?.Invoke();
-
-            activeSwitch = true;
+            Triggered -= ResetTimer;
         }
-
-    }
-
-    //If this switch is timed, this cooldown will be used to control when it will be active until. 
-    private IEnumerator ToggleCooldown()
-    {
-        yield return null;
-    }
-
-    //This function is for when another object toggles, and how this object responds to that (turning itself off if active).
-    private void ToggleResponse()
-    {
-
-        if (this.activeSwitch)
-        {
-            Deactivate();
-
-            activeSwitch = false;
-        }
-
-
-        if (timed && activeSwitch)
-        {
-            //TODO: start cooldown
-        }
-
     }
 
 
-    // Designer can call response behaviour in inspector using UnityEvents.
-    private void Activate()
-    {
-        OnSwitchActivate?.Invoke();
-
-    }
-
-    private void Deactivate()
-    {
-
-        OnSwitchDeactivate?.Invoke();
-
-    }
 
 
 }

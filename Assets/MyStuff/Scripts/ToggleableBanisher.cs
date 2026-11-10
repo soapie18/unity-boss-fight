@@ -16,6 +16,6 @@ public class ToggleableBanisher : MonoBehaviour
 
     public void SetTriggerActive()
     {
-        banishingTrigger.enabled = false;
+        banishingTrigger.enabled = true;
     }
 }

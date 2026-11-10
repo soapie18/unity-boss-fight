@@ -6,19 +6,8 @@ using UnityEngine.Events;
 
 public class MultiLinkSwitch : LinkedSwitch
 {
-    [Header("Switch Attributes")]
+    [Header("Switch Links")]
     public List<MultiLinkSwitch> linkedSwitches = new();
-
-    public event Action ToggleOpposers;
-
-    [SerializeField] private bool interactable = false;
-    [SerializeField] private bool timed = false;
-
-    private bool activeSwitch = false;
-
-    [Header("Toggle Events")]
-    public UnityEvent OnSwitchActivate;
-    public UnityEvent OnSwitchDeactivate;
 
 
     private void OnEnable()
@@ -32,6 +21,11 @@ public class MultiLinkSwitch : LinkedSwitch
         {
             Triggered += Activate;
             Triggered += TriggerToggleOpposer;
+        }
+
+        if (onTimer)
+        {
+            Triggered += ResetTimer;
         }
 
     }
@@ -50,50 +44,13 @@ public class MultiLinkSwitch : LinkedSwitch
             Triggered -= TriggerToggleOpposer;
         }
 
-    }
-
-    private void TriggerToggleOpposer()
-    {
-        if (!activeSwitch)
+        if (onTimer)
         {
-            ToggleOpposers?.Invoke();
-
-            activeSwitch = true;
-        }
-    }
-
-    private IEnumerator ToggleCooldown()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    private void ToggleResponse()
-    {
-        if (activeSwitch)
-        {
-            Deactivate();
-
-            activeSwitch = false;
+            Triggered -= ResetTimer;
         }
 
-
-        if (timed && activeSwitch)
-        {
-            //TODO: start cooldown
-        }
     }
 
-
-    private void Activate()
-    {
-        OnSwitchActivate?.Invoke();
-    }
-
-
-    private void Deactivate()
-    {
-        OnSwitchDeactivate?.Invoke();
-    }
 
 }
 

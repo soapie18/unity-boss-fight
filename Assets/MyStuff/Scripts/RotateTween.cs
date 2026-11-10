@@ -34,12 +34,9 @@ public class RotateTween : MonoBehaviour
     private void Awake()
     {
         defaultLocation = objectToRotate.transform.rotation.eulerAngles;
-    }
-
-    void Start()
-    {
         EvaluateBehaviour();
     }
+
 
     public void EvaluateBehaviour()
     {
