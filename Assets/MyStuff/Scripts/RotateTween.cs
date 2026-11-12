@@ -9,124 +9,91 @@ public class RotateTween : MonoBehaviour
     [Header("Object Details")]
 
     [SerializeField] private Transform objectToRotate;
-    [Tooltip("Required only for MANUAL")][SerializeField] private EndlessRotatingInteraction controller;
-    [SerializeField] private ERotationMode rotationMode;
+    [SerializeField] peivate EAxisOfMovement axisOfRotation;
+    
 
     [Header("Animation Details")]
 
-    [Tooltip("AUTO only! The rate of rotation for auto modes")][SerializeField] private float cycleLength;
-    [Tooltip("MANUAL only! Should be equal to Speed Of Rotation on any other manually rotating object this one may be linked with," +
-        "if sync is desired.")][SerializeField] private float speedOfRotation;
+    [Tooltip("Speed of the rotation animation")][SerializeField] private float rotationTime;
+    [SerializeField] private float rotationDistance;
     private Tween rotationTween;
-    private Vector3 defaultLocation;
+    private Vector3 defaultPos;
+    private Vector3 newPos;
 
     private void OnValidate()
     {
         if (objectToRotate != null)
         {
-            if (rotationMode == ERotationMode.AUTO_360)
+            if (rotationMode == ERotationMode.LOOP_360)
             {
                 objectToRotate.rotation = Quaternion.identity;
             }
         }
-    }
 
-    private void Awake()
-    {
-        defaultLocation = objectToRotate.transform.rotation.eulerAngles;
-        EvaluateBehaviour();
-    }
-
-
-    public void EvaluateBehaviour()
-    {
-        switch (rotationMode)
+        if (customTriggered)
         {
-            case ERotationMode.AUTO_90:
-                Rotate90();
+            rotationMode = ERotationMode.NONE;
+        }
+
+        defaultPos = objectToRotate.transform.rotation.eulerAngles;
+    }
+
+    private void DetermineAxis()
+    {
+        switch (axisOfMovement)
+        {
+            case EAxisOfMovement.Y:
+                newPos.y = defaultPos.y + rotationDistance;
                 break;
-            case ERotationMode.AUTO_180:
-                Rotate180();
+            case EAxisOfMovement.X:
+                newPos.x = defaultPos.x + rotationDistance;
                 break;
-            case ERotationMode.AUTO_360:
-                Rotate360();
-                break;
-            case ERotationMode.MANUAL:
-                AllowControl();
-                break;
-            case ERotationMode.NONE:
-                break;
-            default:
+            case EAxisOfMovement.Z:
+                newPos.z = defaultPos.z + rotationDistance;
                 break;
         }
     }
 
-    public void PauseRotation()
+    private void Start()
     {
-        rotationTween.Pause();
-        DisableControl();
+        DetermineAxis();
     }
 
-    public void ResumeRotation()
+    public void DecideRotationNeeded()
     {
-        rotationTween.Play();
-        AllowControl();
-    }
-
-    private void AllowControl()
-    {
-        if (rotationMode != ERotationMode.MANUAL)
+        //Improve this by getting the midpoint and calculating whether we are above or below it.
+        
+        if (objectToMove.position == newPos)
         {
+            ReturnObject();
             return;
         }
 
-        if (controller)
+        if (objectToMove.position == defaultPos)
         {
-            controller.Enabled = true;
-            controller.OnPercentChanged += RotateObject;
-        }
-    }
-
-    private void DisableControl()
-    {
-        if (rotationMode != ERotationMode.MANUAL)
-        {
+            MoveObject();
             return;
         }
-
-        if (controller)
-        {
-            controller.Enabled = false;
-            controller.OnPercentChanged -= RotateObject;
-        }
+        
+        Debug.Log("object was still moving");
+        return;
     }
 
-    private void RotateObject(float ratio)
-    {
-        objectToRotate.Rotate(0, ratio * (Time.deltaTime * speedOfRotation), 0, Space.World);
-    }
-
-    private void Rotate180()
+    public void Rotate()
     {
         if (objectToRotate)
         {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 90, 0), cycleLength).SetEase(Ease.InOutSine);
         }
     }
 
-    private void Rotate90()
+    public void ReturnFromRotation()
     {
         if (objectToRotate)
         {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 90, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y, 0), cycleLength).SetEase(Ease.InOutSine);
         }
     }
 
-    private void Rotate360()
-    {
-        if (objectToRotate)
-        {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, 360, 0), cycleLength, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
-        }
-    }
+    
 }

@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public class InteractionHandler : Interaction
+public class SwitchInteractionHandler : Interaction
 {
     private LinkedSwitch toggleableSwitch;
 
