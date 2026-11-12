@@ -1,4 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class RotateLoop : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class RotateLoop : MonoBehaviour
     [Tooltip("AUTO only! The rate of rotation for auto modes")][SerializeField] private float cycleLength;
     [Tooltip("MANUAL only! Should be equal to Speed Of Rotation on any other manually rotating object this one may be linked with," +
         "if sync is desired.")][SerializeField] private float speedOfRotation;
+    [SerializeField] private float rotationDistance;
     private Tween rotationTween;
     private Vector3 defaultLocation;
 
@@ -40,11 +43,8 @@ public class RotateLoop : MonoBehaviour
     {
         switch (rotationMode)
         {
-            case ERotationMode.LOOP_90:
-                Loop90();
-                break;
-            case ERotationMode.LOOP_180:
-                Loop180();
+            case ERotationMode.BACK_FORTH:
+                BackAndForth();
                 break;
             case ERotationMode.LOOP_360:
                 Loop360();
@@ -97,19 +97,12 @@ public class RotateLoop : MonoBehaviour
         }
     }
 
-    private void Loop180()
-    {
-        if (objectToRotate)
-        {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 180, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-        }
-    }
 
-    private void Loop90()
+    private void BackAndForth()
     {
         if (objectToRotate)
         {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 90, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y + rotationDistance, 0), cycleLength).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         }
     }
 
@@ -119,5 +112,10 @@ public class RotateLoop : MonoBehaviour
         {
             rotationTween = objectToRotate.DORotate(new Vector3(0, 360, 0), cycleLength, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart);
         }
+    }
+
+    private void RotateObjectManually(float delta)
+    {
+        objectToRotate.Rotate(0, speedOfRotation * delta, 0, Space.World);
     }
 }

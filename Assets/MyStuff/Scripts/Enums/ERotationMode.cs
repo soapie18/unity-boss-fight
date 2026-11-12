@@ -2,8 +2,7 @@ using UnityEngine;
 
 public enum ERotationMode
 {
-    LOOP_90,
-    LOOP_180,
+    BACK_FORTH,
     LOOP_360,
     MANUAL
 }

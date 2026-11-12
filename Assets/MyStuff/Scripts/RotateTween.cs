@@ -5,11 +5,12 @@ using UnityEngine.tvOS;
 
 public class RotateTween : MonoBehaviour
 {
-    //Creates rotation of object on Y axis
     [Header("Object Details")]
 
     [SerializeField] private Transform objectToRotate;
-    [SerializeField] peivate EAxisOfMovement axisOfRotation;
+    [SerializeField] private EAxisOfMovement axisOfRotation;
+
+    private bool returning;
     
 
     [Header("Animation Details")]
@@ -20,27 +21,17 @@ public class RotateTween : MonoBehaviour
     private Vector3 defaultPos;
     private Vector3 newPos;
 
-    private void OnValidate()
+    private void Awake()
     {
-        if (objectToRotate != null)
+        if(objectToRotate)
         {
-            if (rotationMode == ERotationMode.LOOP_360)
-            {
-                objectToRotate.rotation = Quaternion.identity;
-            }
+            defaultPos = objectToRotate.transform.rotation.eulerAngles;
         }
-
-        if (customTriggered)
-        {
-            rotationMode = ERotationMode.NONE;
-        }
-
-        defaultPos = objectToRotate.transform.rotation.eulerAngles;
     }
 
     private void DetermineAxis()
     {
-        switch (axisOfMovement)
+        switch (axisOfRotation)
         {
             case EAxisOfMovement.Y:
                 newPos.y = defaultPos.y + rotationDistance;
@@ -61,21 +52,20 @@ public class RotateTween : MonoBehaviour
 
     public void DecideRotationNeeded()
     {
-        //Improve this by getting the midpoint and calculating whether we are above or below it.
+        returning = !returning;
         
-        if (objectToMove.position == newPos)
+        if (returning)
         {
-            ReturnObject();
+            Rotate();
             return;
         }
 
-        if (objectToMove.position == defaultPos)
+        else
         {
-            MoveObject();
-            return;
+            ReturnFromRotation();
         }
-        
-        Debug.Log("object was still moving");
+
+            Debug.Log("failed?");
         return;
     }
 
@@ -83,7 +73,7 @@ public class RotateTween : MonoBehaviour
     {
         if (objectToRotate)
         {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y - 90, 0), cycleLength).SetEase(Ease.InOutSine);
+            rotationTween = objectToRotate.DORotate(newPos, rotationTime).SetEase(Ease.InOutSine);
         }
     }
 
@@ -91,7 +81,7 @@ public class RotateTween : MonoBehaviour
     {
         if (objectToRotate)
         {
-            rotationTween = objectToRotate.DORotate(new Vector3(0, defaultLocation.y, 0), cycleLength).SetEase(Ease.InOutSine);
+            rotationTween = objectToRotate.DORotate(newPos, rotationTime).SetEase(Ease.InOutSine);
         }
     }
 
