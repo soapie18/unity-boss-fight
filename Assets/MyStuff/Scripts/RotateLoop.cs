@@ -1,6 +1,5 @@
 using DG.Tweening;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class RotateLoop : MonoBehaviour
 {

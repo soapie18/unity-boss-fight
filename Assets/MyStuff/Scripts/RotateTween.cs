@@ -1,7 +1,6 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
-using UnityEngine.tvOS;
 
 public class RotateTween : MonoBehaviour
 {
