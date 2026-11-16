@@ -20,12 +20,9 @@ public class MoveTween : MonoBehaviour
     {
         defaultPos = objectToMove.localPosition;
         newPos = defaultPos;
-    }
-
-    void Start()
-    {
         DetermineAxis();
     }
+
 
     private void DetermineAxis()
     {

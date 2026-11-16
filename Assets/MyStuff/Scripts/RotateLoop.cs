@@ -14,8 +14,8 @@ public class RotateLoop : MonoBehaviour
 
     [Tooltip("AUTO only! The rate of rotation for auto modes")][SerializeField] private float cycleLength;
     [Tooltip("MANUAL only! Should be equal to Speed Of Rotation on any other manually rotating object this one may be linked with," +
-        "if sync is desired.")][SerializeField] private float speedOfRotation;
-    [SerializeField] private float rotationDistance;
+        "if sync is desired.")][SerializeField] private float manualRotationRate;
+    [Tooltip("For BACK_FORTH types")][SerializeField] private float rotationDistance;
     private Tween rotationTween;
     private Vector3 defaultLocation;
 
@@ -115,6 +115,6 @@ public class RotateLoop : MonoBehaviour
 
     private void RotateObjectManually(float delta)
     {
-        objectToRotate.Rotate(0, speedOfRotation * delta, 0, Space.World);
+        objectToRotate.Rotate(0, manualRotationRate * delta, 0, Space.World);
     }
 }
