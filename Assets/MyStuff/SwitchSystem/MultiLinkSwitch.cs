@@ -19,7 +19,7 @@ public class MultiLinkSwitch : LinkedSwitch
 
         if (interactable)
         {
-            Triggered += Activate;
+            Triggered += DetermineState;
             Triggered += TriggerToggleOpposer;
         }
 
@@ -40,7 +40,7 @@ public class MultiLinkSwitch : LinkedSwitch
 
         if (interactable)
         {
-            Triggered -= Activate;
+            Triggered -= DetermineState;
             Triggered -= TriggerToggleOpposer;
         }
 

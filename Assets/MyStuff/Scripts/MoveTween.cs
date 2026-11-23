@@ -40,26 +40,6 @@ public class MoveTween : MonoBehaviour
         }
     }
 
-    public void DecideMovementNeeded()
-    {
-        if (objectToMove.position == newPos)
-        {
-            ReturnObject();
-            return;
-        }
-
-        if (objectToMove.position == defaultPos)
-        {
-            MoveObject();
-            return;
-        }
-
-        
-        
-        Debug.Log("object was still moving");
-        return;
-    }
-
     public void MoveObject()
     {
         movement = objectToMove.DOLocalMove(newPos, animationDuration);

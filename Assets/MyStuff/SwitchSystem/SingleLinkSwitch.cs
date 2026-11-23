@@ -18,7 +18,7 @@ public class SingleLinkSwitch : LinkedSwitch
 
         if (interactable)
         {
-            Triggered += Activate;
+            Triggered += DetermineState;
             Triggered += TriggerToggleOpposer;
         }
 
@@ -38,7 +38,7 @@ public class SingleLinkSwitch : LinkedSwitch
 
         if (interactable)
         {
-            Triggered -= Activate;
+            Triggered -= DetermineState;
             Triggered -= TriggerToggleOpposer;
         }
 
