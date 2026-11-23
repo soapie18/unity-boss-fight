@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5587781089877803027}
   - component: {fileID: 5173271367750936713}
   m_Layer: 0
-  m_Name: ObjPoolSpawner
+  m_Name: MovingObjSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bec84296c4da54f93dc1305c4ac25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovingObjectSpawner
-  active: 0
+  active: 1
   objectToPool: {fileID: 7643250819140993203, guid: b811dd6a8ded13046bc5bd7972e1db0d,
     type: 3}
   initialPoolLimit: 10
